@@ -5,11 +5,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.merka.learnantlr</groupId>
-	<artifactId>learnantlr</artifactId>
+	<groupId>org.darioaxel.ANTLRPowerScript</groupId>
+	<artifactId>ANTLRPowerScript</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
-	<name>LearnANTLR</name>
+	<name>ANTLRPowerScript</name>
 
 	<properties>
 		<antlr4.plugin.version>4.5</antlr4.plugin.version>
@@ -50,13 +50,6 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-
 
 	</dependencies>
 
