@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class TestPowerScriptPBTRecognition {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TestPowerScriptPBTRecognition.class);
-        private static final Path TestPBT =  FileSystems.getDefault().getPath("/home/darioaxel/NetBeansProjects/ANTLRPowerScript/src/test/resources/TestPBT.pbt");
+        private static final Path TestPBT =  FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/TestPBT.pbt");
 	
 	@Test
 	public void testBasicVisitor() throws IOException{
