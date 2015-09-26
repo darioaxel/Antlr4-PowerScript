@@ -3,7 +3,8 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar PowerScriptPBT;
+grammar ExportHeader;
+
 
 prog: header libraries objects EOF;
 

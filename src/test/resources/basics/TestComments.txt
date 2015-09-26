@@ -1,0 +1,11 @@
+Test Comments
+// This is a comment;
+
+char angularjs = 34.54 //this is even a comment   /* this happens to
+in comments */
+
+/*This is also 
+// a comment
+* in fact 
+The same comment */
+
