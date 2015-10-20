@@ -1,4 +1,4 @@
-/**
+/*
 *	Original Author: Darío Ureña
 *	E-Mail: darioaxel@gmail.com
 */
