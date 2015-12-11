@@ -30,14 +30,8 @@ public class TestPowerScriptPBTRecognition {
 
         TestErrorListener errorListener = new TestErrorListener();
         ProgContext context = parseFile(TestPBT.toFile(), errorListener);
-        TestPBTVisitor myTestPBTVisitor = new TestPBTVisitor();
 
-        assertFalse(errorListener.isFail());
-
-        boolean allFine = (boolean) myTestPBTVisitor.visit(context);
-
-        assertEquals(myTestPBTVisitor.getPBTCompilationNumber(), "19990112");
-
+        assertFalse(errorListener.isFail());  
     }
 
     private ProgContext parseFile(File program, TestErrorListener errorListener) throws IOException {

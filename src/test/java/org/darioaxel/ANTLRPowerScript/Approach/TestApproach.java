@@ -38,6 +38,7 @@ import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.TokenStream;
 import org.darioaxel.ANTLRPowerScript.TestErrorListener;
 import org.darioaxel.ANTLRPowerScript.basics.CommentsLexer;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,39 +46,62 @@ import org.slf4j.LoggerFactory;
  *
  * @author darioaxel
  */
-public class TestFirstApproach {
+public class TestApproach {
     
-    private static final Logger logger = LoggerFactory.getLogger(TestFirstApproach.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestApproach.class);
     private static final Path test_header = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header.txt");
-    private static final Path test_header_HA = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_HA.txt");
+    private static final Path test_constants = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestConstants.txt");
     private static final Path test_header_one_line = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_one_line.txt");
     private static final Path test_headers_forward_with_global_type = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_headers_forward_with_global_type.txt");
    
     @Test
-    public void testFirsApproachVisitor_one() throws IOException {
+    @Ignore
+    public void testPowerScript00() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
         PowerScriptParser.CompilationUnitContext context = parseFile(test_header.toFile(), errorListener);
-        TestPowerScriptVisitor myPowerScriptVisitor = new TestPowerScriptVisitor();
-
-        assertFalse(errorListener.isFail());
-
-        Boolean allFine;      
-        allFine = (Boolean) myPowerScriptVisitor.visitStartCompilationUnit((PowerScriptParser.StartCompilationUnitContext) context);
+        assertFalse(errorListener.isFail());    
     }
 
+    @Test
+    public void testPowerScript01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        PowerScript01TestParser.CompilationUnitContext context = parseFile01(test_constants.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
     private PowerScriptParser.CompilationUnitContext parseFile(File program, 
             TestErrorListener errorListener) throws IOException {
         
-        CharStream inputCharStream = new ANTLRInputStream(new FileReader(program));
-        TokenSource tokenSource = new CommentsLexer(inputCharStream);
-        TokenStream inputTokenStream = new CommonTokenStream(tokenSource);
+        TokenStream inputTokenStream = createInputTokenStream(program);
         PowerScriptParser parser = new PowerScriptParser(inputTokenStream);
 
         parser.addErrorListener(errorListener);
 
         PowerScriptParser.CompilationUnitContext context = parser.compilationUnit();
         return context;
+    }
+    
+    private PowerScript01TestParser.CompilationUnitContext parseFile01(File program, 
+            TestErrorListener errorListener) throws IOException {
+        
+        TokenStream inputTokenStream = createInputTokenStream(program);
+        PowerScript01TestParser parser = new PowerScript01TestParser(inputTokenStream);
+
+        parser.addErrorListener(errorListener);
+
+        PowerScript01TestParser.CompilationUnitContext context = parser.compilationUnit();
+        return context;
+    }
+    
+    private TokenStream createInputTokenStream(File program) throws IOException {
+        
+        CharStream inputCharStream = new ANTLRInputStream(new FileReader(program));
+        TokenSource tokenSource = new CommentsLexer(inputCharStream);
+        TokenStream inputTokenStream = new CommonTokenStream(tokenSource);
+        
+        return inputTokenStream;
     }
 }
 
