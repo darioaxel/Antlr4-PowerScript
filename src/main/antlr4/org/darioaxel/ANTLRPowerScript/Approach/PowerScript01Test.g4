@@ -29,7 +29,7 @@ constantDeclarator
     ;
 
 fieldDeclaration
-    :   accessType type variableDeclarators delimiter
+    :   accessType? type variableDeclarators delimiter
     ;
 
 variableDeclarators
@@ -56,7 +56,6 @@ expression
 
 primary
     :   literal
-    |   Identifier
     ;
 
 literal
@@ -336,3 +335,5 @@ COMMENT
 LINE_COMMENT
     :   '//' ~[\r\n]* -> skip
     ;
+	
+WS: [ \n\t\r]+ -> skip;
