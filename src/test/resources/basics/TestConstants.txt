@@ -1,0 +1,2 @@
+constant string LS_HOMECITY = "Boston"
+constant int LR_PI = 314159265
