@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.darioaxel.ANTLRPowerScript.Approach;
+package org.darioaxel.ANTLRPowerScript;
 
 import java.io.File;
 import java.io.FileReader;
@@ -36,26 +36,26 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.TokenStream;
-import org.darioaxel.ANTLRPowerScript.TestErrorListener;
+import org.darioaxel.ANTLRPowerScript.Approach.PS01_Character_StringLiteralParser;
+import org.darioaxel.ANTLRPowerScript.Approach.PS02_IntegerLiteralParser;
+import org.darioaxel.ANTLRPowerScript.Approach.PowerScriptParser;
 import org.darioaxel.ANTLRPowerScript.basics.CommentsLexer;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 /**
  *
  * @author darioaxel
  */
-public class TestApproach {
+public class TestLiteral {
     
-    private static final Logger logger = LoggerFactory.getLogger(TestApproach.class);
+  //  private static final Logger logger = LoggerFactory.getLogger(TestLiteral.class);
     private static final Path test_header = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header.txt");
-    private static final Path test_constants = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestConstants.txt");
-    private static final Path test_variable = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariables.txt");
-    private static final Path test_variableCharacterStringLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariableCharacterStringLiteral.txt");
-    private static final Path test_variableIntegerLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariableIntegerLiteral.txt");
-    private static final Path test_header_one_line = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_one_line.txt");
-    private static final Path test_headers_forward_with_global_type = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_headers_forward_with_global_type.txt");
+  //  private static final Path test_constants = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestConstants.txt");
+  //  private static final Path test_variable = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariables.txt");
+    private static final Path test_variableCharacterStringLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestVariableCharacterStringLiteral.txt");
+    private static final Path test_variableIntegerLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestVariableIntegerLiteral.txt");
+   // private static final Path test_header_one_line = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_one_line.txt");
+   // private static final Path test_headers_forward_with_global_type = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_headers_forward_with_global_type.txt");
    
     @Test
     @Ignore
