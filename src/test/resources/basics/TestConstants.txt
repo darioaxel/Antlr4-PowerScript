@@ -1,2 +1,2 @@
-constant string LS_HOMECITY = "Boston"
-constant int LR_PI = 314159265
+CONSTANT string LS_HOMECITY = "Boston"
+CONSTANT integer LR_PI = 314159265
