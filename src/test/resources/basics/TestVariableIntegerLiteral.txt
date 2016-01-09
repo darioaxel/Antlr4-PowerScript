@@ -1,7 +1,2 @@
 integer ii_a = 10 , ii_b = 24
-
-integer ii_Units //With commen
-
-private integer ii_test
-// Let's try here some comments also
-privatewrite integer idb_Results = 2345
+integer ii_Units // With commen

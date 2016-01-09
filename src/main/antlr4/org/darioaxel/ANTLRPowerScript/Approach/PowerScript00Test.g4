@@ -3,7 +3,7 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar PowerScript02Test;
+grammar PowerScript00Test;
 
 // starting point for parsing a PowerScript file
 
@@ -40,9 +40,7 @@ variableDeclarator
     :   variableDeclaratorId ('=' variableInitializer)?
     ;
 
-variableInitializer
-  //  :   arrayInitializer
-  //  |  
+variableInitializer  
     : expression
     ;
 

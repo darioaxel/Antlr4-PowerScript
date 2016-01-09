@@ -3,7 +3,7 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar PowerScript01Test;
+grammar PS01_Character_StringLiteral;
 
 // starting point for parsing a PowerScript file
 
@@ -40,9 +40,7 @@ variableDeclarator
     :   variableDeclaratorId ('=' variableInitializer)?
     ;
 
-variableInitializer
-  //  :   arrayInitializer
-  //  |  
+variableInitializer  
     : expression
     ;
 
@@ -59,8 +57,7 @@ primary
     ;
 
 literal
-    :   CharacterLiteral
-    |   StringLiteral
+    :   StringLiteral
     |   BooleanLiteral
     |   'null'
     ;
@@ -79,14 +76,8 @@ accessType
     ;
 
 type
-//    :  classOrInterfaceType ('[' ']')*
     :   primitiveType ('[' ']')*
     ;
-/*
-classOrInterfaceType
-    :   Identifier typeArguments? ('.' Identifier typeArguments? )*
-    ;
-*/
 
 delimiter
     :   ';'
@@ -103,6 +94,7 @@ primitiveType
     |   'float'
     |   'double'
     |   'real'
+	|	'string'
     ;
 
 // §3.10.3 Boolean Literals
@@ -144,28 +136,6 @@ EscapeSequence
     :   '\\' [btnfr"'\\]
     |   OctalEscape
     |   UnicodeEscape
-    ;
-
-fragment
-DecimalNumeral
-    :   '0'
-    |   NonZeroDigit (Digits? | Underscores Digits)
-    ;
-
-fragment
-Digits
-    :   Digit (DigitOrUnderscore* Digit)?
-    ;
-
-fragment
-Digit
-    :   '0'
-    |   NonZeroDigit
-    ;
-
-fragment
-NonZeroDigit
-    :   [1-9]
     ;
 
 fragment
@@ -224,6 +194,17 @@ DigitOrUnderscore
     ;
 
 fragment
+Digit
+    :   '0'
+    |   NonZeroDigit
+    ;
+
+fragment
+NonZeroDigit
+    :   [1-9]
+    ;
+
+fragment
 Underscores
     :   '_'+
     ;
@@ -232,22 +213,6 @@ Underscores
 
 NullLiteral
     :   'null'
-    ;
-
-// §3.10.1 Integer Literals
-
-IntegerLiteral
-    :   DecimalIntegerLiteral
-    ;
-
-fragment
-DecimalIntegerLiteral
-    :   DecimalNumeral IntegerTypeSuffix?
-    ;
-
-fragment
-IntegerTypeSuffix
-    :   [lL]
     ;
 
 // §3.11 SEPARATORS

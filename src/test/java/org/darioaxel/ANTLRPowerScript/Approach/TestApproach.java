@@ -52,6 +52,7 @@ public class TestApproach {
     private static final Path test_header = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header.txt");
     private static final Path test_constants = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestConstants.txt");
     private static final Path test_variable = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariables.txt");
+    private static final Path test_variableCharacterStringLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariableCharacterStringLiteral.txt");
     private static final Path test_variableIntegerLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariableIntegerLiteral.txt");
     private static final Path test_header_one_line = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_one_line.txt");
     private static final Path test_headers_forward_with_global_type = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_headers_forward_with_global_type.txt");
@@ -66,18 +67,18 @@ public class TestApproach {
     }
 
     @Test
-    public void testPowerScript01Constants() throws IOException {
+    public void testPS01_Character_StringLiteral() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PowerScript01TestParser.CompilationUnitContext context = parseFile01(test_constants.toFile(), errorListener);
+        PS01_Character_StringLiteralParser.CompilationUnitContext context = parseFile01(test_variableCharacterStringLiteral.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
     @Test
-    public void testPowerScript02VariableIntegerLiteral() throws IOException {
+    public void testPS02_IntegerLiteralParser() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PowerScript02TestParser.CompilationUnitContext context = parseFile02(test_variableIntegerLiteral.toFile(), errorListener);
+        PS02_IntegerLiteralParser.CompilationUnitContext context = parseFile02(test_variableIntegerLiteral.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
@@ -93,27 +94,27 @@ public class TestApproach {
         return context;
     }
     
-    private PowerScript01TestParser.CompilationUnitContext parseFile01(File program, 
+    private PS01_Character_StringLiteralParser.CompilationUnitContext parseFile01(File program, 
             TestErrorListener errorListener) throws IOException {
         
         TokenStream inputTokenStream = createInputTokenStream(program);
-        PowerScript01TestParser parser = new PowerScript01TestParser(inputTokenStream);
+        PS01_Character_StringLiteralParser parser = new PS01_Character_StringLiteralParser(inputTokenStream);
 
         parser.addErrorListener(errorListener);
 
-        PowerScript01TestParser.CompilationUnitContext context = parser.compilationUnit();
+        PS01_Character_StringLiteralParser.CompilationUnitContext context = parser.compilationUnit();
         return context;
     }
     
-    private PowerScript02TestParser.CompilationUnitContext parseFile02(File program, 
+    private PS02_IntegerLiteralParser.CompilationUnitContext parseFile02(File program, 
             TestErrorListener errorListener) throws IOException {
         
         TokenStream inputTokenStream = createInputTokenStream(program);
-        PowerScript02TestParser parser = new PowerScript02TestParser(inputTokenStream);
+        PS02_IntegerLiteralParser parser = new PS02_IntegerLiteralParser(inputTokenStream);
 
         parser.addErrorListener(errorListener);
 
-        PowerScript02TestParser.CompilationUnitContext context = parser.compilationUnit();
+        PS02_IntegerLiteralParser.CompilationUnitContext context = parser.compilationUnit();
         return context;
     }
     
