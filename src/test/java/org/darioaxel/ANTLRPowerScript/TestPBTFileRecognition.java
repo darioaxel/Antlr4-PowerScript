@@ -20,9 +20,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestPowerScriptPBTRecognition {
+public class TestPBTFileRecognition {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestPowerScriptPBTRecognition.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestPBTFileRecognition.class);
     private static final Path TestPBT = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestPBT.pbt");
 
     @Test

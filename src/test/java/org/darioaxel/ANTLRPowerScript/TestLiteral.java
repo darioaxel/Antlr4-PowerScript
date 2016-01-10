@@ -38,6 +38,8 @@ import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.TokenStream;
 import org.darioaxel.ANTLRPowerScript.Approach.PS01_Character_StringLiteralParser;
 import org.darioaxel.ANTLRPowerScript.Approach.PS02_IntegerLiteralParser;
+import org.darioaxel.ANTLRPowerScript.Approach.PS03_AllLiteralsParser;
+import org.darioaxel.ANTLRPowerScript.Approach.PS04_ArrayOfLiteralParser;
 import org.darioaxel.ANTLRPowerScript.Approach.PowerScriptParser;
 import org.darioaxel.ANTLRPowerScript.basics.CommentsLexer;
 import org.junit.Ignore;
@@ -48,21 +50,18 @@ import org.junit.Test;
  */
 public class TestLiteral {
     
-  //  private static final Logger logger = LoggerFactory.getLogger(TestLiteral.class);
     private static final Path test_header = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header.txt");
-  //  private static final Path test_constants = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestConstants.txt");
-  //  private static final Path test_variable = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/basics/TestVariables.txt");
     private static final Path test_variableCharacterStringLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestVariableCharacterStringLiteral.txt");
     private static final Path test_variableIntegerLiteral = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestVariableIntegerLiteral.txt");
-   // private static final Path test_header_one_line = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_header_one_line.txt");
-   // private static final Path test_headers_forward_with_global_type = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Headers/test_headers_forward_with_global_type.txt");
+    private static final Path test_allLiterals = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestAllLiterals.txt");
+    private static final Path test_arrayOfLiterals = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Literals/TestArrayOfLiterals.txt");
    
     @Test
     @Ignore
     public void testPowerScript00Header() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PowerScriptParser.CompilationUnitContext context = parseFile(test_header.toFile(), errorListener);
+        PowerScriptParser.CompilationUnitContext context0 = parseFile(test_header.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
 
@@ -70,7 +69,7 @@ public class TestLiteral {
     public void testPS01_Character_StringLiteral() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PS01_Character_StringLiteralParser.CompilationUnitContext context = parseFile01(test_variableCharacterStringLiteral.toFile(), errorListener);
+        PS01_Character_StringLiteralParser.CompilationUnitContext context1 = parseFile01(test_variableCharacterStringLiteral.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
@@ -78,7 +77,23 @@ public class TestLiteral {
     public void testPS02_IntegerLiteralParser() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PS02_IntegerLiteralParser.CompilationUnitContext context = parseFile02(test_variableIntegerLiteral.toFile(), errorListener);
+        PS02_IntegerLiteralParser.CompilationUnitContext context2 = parseFile02(test_variableIntegerLiteral.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPS03_AllLiteralsParser() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        PS03_AllLiteralsParser.CompilationUnitContext context3 = parseFile03(test_allLiterals.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void PS04_ArrayOfLiteralParser() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        PS04_ArrayOfLiteralParser.CompilationUnitContext context4 = parseFile04(test_arrayOfLiterals.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
@@ -117,6 +132,31 @@ public class TestLiteral {
         PS02_IntegerLiteralParser.CompilationUnitContext context = parser.compilationUnit();
         return context;
     }
+    
+    private PS03_AllLiteralsParser.CompilationUnitContext parseFile03(File program, 
+            TestErrorListener errorListener) throws IOException {
+        
+        TokenStream inputTokenStream = createInputTokenStream(program);
+        PS03_AllLiteralsParser parser = new PS03_AllLiteralsParser(inputTokenStream);
+
+        parser.addErrorListener(errorListener);
+
+        PS03_AllLiteralsParser.CompilationUnitContext context = parser.compilationUnit();
+        return context;
+    }
+    
+     private PS04_ArrayOfLiteralParser.CompilationUnitContext parseFile04(File program, 
+            TestErrorListener errorListener) throws IOException {
+        
+        TokenStream inputTokenStream = createInputTokenStream(program);
+        PS04_ArrayOfLiteralParser parser = new PS04_ArrayOfLiteralParser(inputTokenStream);
+
+        parser.addErrorListener(errorListener);
+
+        PS04_ArrayOfLiteralParser.CompilationUnitContext context = parser.compilationUnit();
+        return context;
+    }
+    
     
     private TokenStream createInputTokenStream(File program) throws IOException {
         

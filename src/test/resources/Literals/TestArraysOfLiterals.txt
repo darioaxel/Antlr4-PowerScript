@@ -1,0 +1,4 @@
+string li_tal []
+
+decimal lc_Price [20]
+integer li_Qty [0 to 2]
