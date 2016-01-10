@@ -21,11 +21,11 @@ memberDeclaration
     ;
 
 constDeclaration
-    :   'CONSTANT' type constantDeclarator (',' constantDeclarator)* delimiter
+    :   'constant' type constantDeclarator (',' constantDeclarator)* delimiter
     ;
 
 constantDeclarator
-    :   Identifier ('[' ']')* '=' variableInitializer
+    :   Identifier arrayLengthDeclarator* '=' variableInitializer
     ;
 
 fieldDeclaration
@@ -45,7 +45,7 @@ variableInitializer
     ;
 
 variableDeclaratorId
-    :   Identifier ('[' ']')*
+    :   Identifier arrayLengthDeclarator*
     ;
 
 expression
@@ -78,9 +78,20 @@ accessType
     ;
 
 type
-    :   primitiveType ('[' ']')*
+    :   primitiveType arrayLengthDeclarator*
     ;
 
+arrayLengthDeclarator
+	: '[' arrayLengthValue* ']'
+	;
+
+arrayLengthValue
+	: arrayLengthRange (',' arrayLengthRange)*
+	;
+
+arrayLengthRange
+	:  IntegerLiteral ('TO' IntegerLiteral)*
+	;
 
 delimiter
     :   ';'
@@ -98,6 +109,7 @@ primitiveType
     |   'double'
     |   'real'
 	|	'string'
+	|	'integer'
     ;
 
 // §3.10.1 Boolean Literals
@@ -156,7 +168,9 @@ fragment
 SingleCharacter
     :   ~['\\]
     ;
+	
 // §3.10.4 String Literals
+
 StringLiteral
     :   '"' StringCharacters? '"'
     ;

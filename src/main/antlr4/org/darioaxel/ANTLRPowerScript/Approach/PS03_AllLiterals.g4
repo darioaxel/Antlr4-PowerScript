@@ -98,6 +98,7 @@ primitiveType
     |   'double'
     |   'real'
 	|	'string'
+	|	'integer'
     ;
 
 // §3.10.1 Boolean Literals
