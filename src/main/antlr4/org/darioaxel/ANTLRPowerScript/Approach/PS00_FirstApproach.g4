@@ -3,7 +3,7 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar PowerScript00Test;
+grammar PS00_FirstApproach;
 
 // starting point for parsing a PowerScript file
 

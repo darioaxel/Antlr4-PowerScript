@@ -40,7 +40,7 @@ import org.darioaxel.ANTLRPowerScript.Approach.PS01_Character_StringLiteralParse
 import org.darioaxel.ANTLRPowerScript.Approach.PS02_IntegerLiteralParser;
 import org.darioaxel.ANTLRPowerScript.Approach.PS03_AllLiteralsParser;
 import org.darioaxel.ANTLRPowerScript.Approach.PS04_ArrayOfLiteralParser;
-import org.darioaxel.ANTLRPowerScript.Approach.PowerScriptParser;
+import org.darioaxel.ANTLRPowerScript.Approach.PS00_FirstApproachParser;
 import org.darioaxel.ANTLRPowerScript.basics.CommentsLexer;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class TestLiteral {
     public void testPowerScript00Header() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        PowerScriptParser.CompilationUnitContext context0 = parseFile(test_header.toFile(), errorListener);
+        PS00_FirstApproachParser.CompilationUnitContext context0 = parseFile(test_header.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
 
@@ -97,15 +97,15 @@ public class TestLiteral {
         assertFalse(errorListener.isFail());    
     }
     
-    private PowerScriptParser.CompilationUnitContext parseFile(File program, 
+    private PS00_FirstApproachParser.CompilationUnitContext parseFile(File program, 
             TestErrorListener errorListener) throws IOException {
         
         TokenStream inputTokenStream = createInputTokenStream(program);
-        PowerScriptParser parser = new PowerScriptParser(inputTokenStream);
+        PS00_FirstApproachParser parser = new PS00_FirstApproachParser(inputTokenStream);
 
         parser.addErrorListener(errorListener);
 
-        PowerScriptParser.CompilationUnitContext context = parser.compilationUnit();
+        PS00_FirstApproachParser.CompilationUnitContext context = parser.compilationUnit();
         return context;
     }
     
