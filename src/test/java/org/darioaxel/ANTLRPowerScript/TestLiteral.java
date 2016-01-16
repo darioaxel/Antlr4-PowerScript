@@ -74,6 +74,7 @@ public class TestLiteral {
     }
     
     @Test
+     @Ignore
     public void testPS02_IntegerLiteralParser() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
@@ -82,6 +83,7 @@ public class TestLiteral {
     }
     
     @Test
+     @Ignore
     public void testPS03_AllLiteralsParser() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
@@ -90,6 +92,7 @@ public class TestLiteral {
     }
     
     @Test
+    @Ignore
     public void PS04_ArrayOfLiteralParser() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();

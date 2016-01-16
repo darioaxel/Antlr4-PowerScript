@@ -31,13 +31,41 @@ splitted in two parsed objects.
 
 5. Arrays
 
+DONE. 04_ArrayOfLiteral
+
 6. Expressions
+
+05_Expression
 
 7. Type variables
 
 8. Forward declaration
 
+FORWARD delim
+( dataTypeDeclaration | variableDeclaration ) 
+END FORWARD delim
+
+9. DataTypeDeclaration
+
+scopeModifier TYPE id FROM id`id WITHIN id 
+(eventForwardDeclaration | descriptorDeclaration | variableDeclaration)
+END TYPE
+
+10. DescriptorDeclaration
+
+descriptor "comment" = "Entidad"
+
+11. EventForwardDeclaration
+
+EVENT CREATE id ( parameters )
+EVENT TYPE string id ( parameters )
+
 9. Global variables
+
+( GLOBAL | SHARED ) VARIABLES delim
+( variableDeclaration | constantDeclaration )
+END VARIABLES delim
+
 
 10. Function_Subroutine declaration
 
