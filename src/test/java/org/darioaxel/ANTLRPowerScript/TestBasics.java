@@ -52,15 +52,6 @@ public class TestBasics {
     public void testPSbasics_Header() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        errorListener.setFail(true).test.otro;
-         ll_coc = Long(LeftA(ls_proteccion,i - 1));
-         Upper(LeftA(ls_datosfila,5)) = "#FIN#"; 
-        string cata = "polla";
-        
-        This.of_crea_ubd_atrib(ls_fichero_bat);
-        This.of_actualiza_traza((li_script - li_min_script + 1), (li_max_script - li_min_script + 1));
-
-ls_fichero_bat = iw_cliente.in_param_act.is_unidad + "-" + iw_cliente.in_param_act.is_dirapl + "-Ubd_Atrib.bat";
         PSbasics_HeaderParser.CompilationUnitContext context1 = parseFile_basics_Header(test_PSbasics_Header.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
