@@ -1,37 +1,43 @@
 # Table of Contents
 1. [Antlr4-PowerScript](#antlr4-PowerScript)
-2. [Development Points](#development-points)
+2. [Common grammar Points](#common-grammar-points)
 	1. [Comments](#comments)
-	2. [Headers](#headers)
-	3. [Variable Declaration](#variable-declaration)
+	2. [Identifiers](#identifiers)
+3. [Development Points](#development-points)
+	1. [Headers](#headers)
+	2. [Variable Declaration](#variable-declaration)
 		1. [Constants Declaration](#constant-declaration)
 		2. [Array Declaration](#array-declaration)
-	4. [Forward Declaration](#forward-declaration)
-	5. [DataType Declaration](#datatype-declaration)
-	6. [Type Variable Declaration](#type-variable-declaration)
-	7. [Global Variable Declaration](#global-variable-declaration)
-	8. [Function Forward Declaration](#function-forward-declaration)
-	9. [Funtions Forward Delcaration](#functions-forward-declaration)
-    10. [Function Body Declaration](#function-body-declaration)
-    12. [On Body Declaration](#on-body-declaration)
-    13. [Event Body Declaration](#event-body-declaration)
-	14. [Statements](#statements)
-	15. [Expressions](#expressions)
+	3. [Forward Declaration](#forward-declaration)
+	4. [DataType Declaration](#datatype-declaration)
+	5. [Type Variable Declaration](#type-variable-declaration)
+	6. [Global Variable Declaration](#global-variable-declaration)
+	7. [Function Forward Declaration](#function-forward-declaration)
+	8. [Funtions Forward Delcaration](#functions-forward-declaration)
+    9. [Function Body Declaration](#function-body-declaration)
+    10. [On Body Declaration](#on-body-declaration)
+    11. [Event Body Declaration](#event-body-declaration)
+	12. [Statements](#statements)
+	13. [Expressions](#expressions)
 
 ## Antlr4-PowerScript
 Creating a grammar for PowerScript in Antlr4.
 
 This project is developed using TDD, so each task is going to be defined by a test which must be passed.
 
-## Development Points
-Each step belongs to a test that must be passed. The whole grammar is divided in the following points.
-
+## Common Grammar Points
 1. Comments
 
 DONE. TestCommentsBasicRecognition. 
 TODO. Review how \n are parser, because there's some cases where they're not being evaluated.
 
-2. Headers
+2. Identifiers
+
+
+## Development Points
+Each step belongs to a test that must be passed. The whole grammar is divided in the following points.
+
+1. Headers
 
 While there seems to be a bug that makes the lexer fail when the token starts with a $, this step is postponed to the future.
 
@@ -72,10 +78,19 @@ scopeModifier TYPE id FROM id`id WITHIN id
 (eventForwardDeclaration | descriptorDeclaration | variableDeclaration)
 END TYPE
 
-6. TypeVariableDeclaration
+event_forward_decl_sub
+	: 'EVENT' (identifier_name | 'CREATE' | 'DESTROY') identifier_name? (LPAREN parameters_list_sub? RPAREN)? 
+	| 'EVENT' 'TYPE' data_type_name identifier_name (LPAREN parameters_list_sub? RPAREN) 
+	;
+	
+event_forward_decl
+	: event_forward_decl_sub delim
+	;
 
+6. TypeVariableDeclaration
+// TODO: Falta el modificador de acceso 
 TYPE VARIABLES
-(variableDeclaration | constantDeclaration)
+(accessModificator | variableDeclaration | constantDeclaration)
 END VARIABLES
 
 7. GlobalVariableDeclaration
@@ -86,9 +101,16 @@ END VARIABLES delim
 
 8. FunctionForwardDeclaration
 
-descriptor "comment" = "Entidad"
+accessModificator? scopeModificator? (FUNTION "dataTypeName" | SUBROUTINE) ID '(' parameterList ')' 
+	(LIBRARY "string" (ALIAS FOR "string")? )?
+	(RPCFUNC ALIAS FOR "string")?
+	(THROWS ID )?
 
 9. FunctionsForwardDeclaration
+
+(FORWARD | TYPE) PROTOTYPES
+   FunctionForwardDeclaration+
+END PROTOTYPES
 
 10. Function Body
 

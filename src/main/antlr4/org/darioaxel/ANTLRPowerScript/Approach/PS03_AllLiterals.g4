@@ -58,8 +58,8 @@ primary
 
 literal
     :   IntegerLiteral
-	|	StringLiteral
-	|   CharacterLiteral
+    |	StringLiteral
+    |   CharacterLiteral
     |   BooleanLiteral
     |   'null'
     ;
@@ -97,8 +97,8 @@ primitiveType
     |   'float'
     |   'double'
     |   'real'
-	|	'string'
-	|	'integer'
+    |	'string'
+    |	'integer'
     ;
 
 // §3.10.1 Boolean Literals
@@ -157,6 +157,7 @@ fragment
 SingleCharacter
     :   ~['\\]
     ;
+
 // §3.10.4 String Literals
 StringLiteral
     :   '"' StringCharacters? '"'
