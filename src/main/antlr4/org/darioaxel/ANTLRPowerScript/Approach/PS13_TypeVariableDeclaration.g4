@@ -3,30 +3,128 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar PS02_IntegerLiteral;
+grammar PS13_TypeVariableDeclaration;
 
 // starting point for parsing a PowerScript file
 
 compilationUnit
-    :  typeDeclaration* EOF
-    ;
-
-typeDeclaration
-    :   modifier* memberDeclaration
+ 	:  memberDeclaration* EOF
     ;
 
 memberDeclaration
-    :   constDeclaration
-    |   fieldDeclaration
-    ;
+	: forwardDeclaration	
+	| fieldDeclaration
+	| dataTypeDeclaration
+	| typeVariablesDeclaration
+	;
 
-constDeclaration
-    :   'CONSTANT' type constantDeclarator (',' constantDeclarator)* delimiter
-    ;
+// Forward declaration
 
-constantDeclarator
-    :   Identifier ('[' ']')* '=' variableInitializer
-    ;
+forwardDeclaration
+	: forwardDeclarationBegin forwardDeclarationBody* forwardDeclarationEnd	  
+	;
+	
+forwardDeclarationBegin
+	: 'forward' delimiter
+	;
+	
+forwardDeclarationEnd
+	: 'end' 'forward' delimiter
+	;
+	
+forwardDeclarationBody
+	: fieldDeclaration
+	| dataTypeDeclaration
+	;
+
+// § Data type declaration	ejemplo: /Ginpix7/Lib/g7xCS_01/n_cst_gestoravisos.sru
+
+dataTypeDeclaration
+	: dataTypeDeclarationBegin dataTypeDeclarationBody? dataTypeDeclarationEnd
+	;
+
+dataTypeDeclarationBegin
+	: scopeModificator? dataTypeDeclarationBeginIdentifier  dataTypeDeclarationParent
+	;
+
+dataTypeDeclarationBeginIdentifier
+	: 'type' Identifier 'from'
+	;
+
+dataTypeDeclarationParent
+	: dataTypeDeclarationParentExpecification? Identifier delimiter?
+	;
+
+dataTypeDeclarationParentExpecification
+	: dataTypeDeclarationParentExpecificationId 'within' 
+	;
+
+dataTypeDeclarationParentExpecificationId
+	: Identifier '`' Identifier
+	| Identifier
+	;	
+
+dataTypeDeclarationBody							
+	: dataTypeDeclarationDescriptor
+	| fieldDeclaration
+	| eventForwardDeclaration
+	;
+
+dataTypeDeclarationDescriptor
+	: 'descriptor' '"' Identifier '"' '=' '"' Identifier '"' delimiter?
+	;
+
+dataTypeDeclarationEnd
+	: 'end' 'type' delimiter?
+	;
+
+scopeModificator
+	: 'global'
+	| 'local'
+	;
+	
+// EventForwardDeclaration
+
+eventForwardDeclaration
+	: 'event' eventForwardTypeDeclaration Identifier? parametersList
+	;
+
+eventForwardTypeDeclaration
+	: 'type'
+	| creatorType
+	;
+	
+creatorType
+	: 'create'
+	| 'destroy'
+	;
+
+parametersList
+	: '(' parametersDeclarators ')'
+	;
+	
+parametersDeclarators 
+	: parameterDeclarator (',' parameterDeclarator)?
+	;
+
+parameterDeclarator
+	: 'readonly'? 'ref'? primitiveType Identifier
+	;
+	
+// § 3.6 Type Variables Declaration	
+typeVariablesDeclaration
+	: typeVariablesDeclarationBegin  EXPRESSION typeVariablesDeclarationEnd
+	;
+	
+typeVariablesDeclarationBegin
+	: 'type' 'variables' delimiter?
+	;
+
+typeVariablesDeclarationEnd
+	: 'end' 'variables' delimiter
+	;
+
+// Field Declaration
 
 fieldDeclaration
     :   accessType? type variableDeclarators delimiter
@@ -267,22 +365,11 @@ Identifier
 fragment
 PBLetter
     :   [a-zA-Z$-_%] 
-    |    ~[\u0000-\u00FF\uD800-\uDBFF]
-        {Character.isJavaIdentifierStart(_input.LA(-1))}?
-    |   // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
-        [\uD800-\uDBFF] [\uDC00-\uDFFF]
-        {Character.isJavaIdentifierStart(Character.toCodePoint((char)_input.LA(-2), (char)_input.LA(-1)))}?
     ;
 
 fragment
 PBLetterOrDigit
     :   [a-zA-Z0-9$-_%] // these are the "java letters or digits" below 0xFF
-    |   // covers all characters above 0xFF which are not a surrogate
-        ~[\u0000-\u00FF\uD800-\uDBFF]
-        {Character.isJavaIdentifierPart(_input.LA(-1))}?
-    |   // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
-        [\uD800-\uDBFF] [\uDC00-\uDFFF]
-        {Character.isJavaIdentifierPart(Character.toCodePoint((char)_input.LA(-2), (char)_input.LA(-1)))}?
     ;
 
 // § COMMENTS & WHITESPACES

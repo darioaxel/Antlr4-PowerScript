@@ -37,6 +37,15 @@ TODO. Review how \n are parser, because there's some cases where they're not bei
 ## Development Points
 Each step belongs to a test that must be passed. The whole grammar is divided in the following points.
 
+
+ PS10_ForwardDeclaration
+ PS11_Forward_DataTypeDeclaration
+ PS12_DataType_EventForwardDeclaration
+ PS13_TypeVariableDeclarations
+ PS14_GlobalVariableDeclarations
+ PS15_FunctionForwardDeclaration
+ PS16_FunctionsForwardDeclaration
+
 1. Headers
 
 While there seems to be a bug that makes the lexer fail when the token starts with a $, this step is postponed to the future.
@@ -52,9 +61,9 @@ $PBExportComments$Menu desglose de atrasos.
 DONE. 
 TODO. Transform all capitalized reserved words 
 
-	4. Variables
+/*	4. Variables
 
-	DONE. 00_BooleanLiteral
+DONE. 00_BooleanLiteral
 	DONE. 01_Character_StringLiteral
 	DONE. 02_IntegerLiteral
 	TODO. 03_FloatPointLiteral
@@ -65,52 +74,63 @@ TODO. Transform all capitalized reserved words
 	5. Arrays
 
 	DONE. 04_ArrayOfLiteral
+*/
 
 4. Forward declaration
-
+```
 FORWARD delim
 ( dataTypeDeclaration | variableDeclaration ) 
 END FORWARD delim
+```
 
 5. DataTypeDeclaration
-
+```
 scopeModifier TYPE id FROM id`id WITHIN id 
 (eventForwardDeclaration | descriptorDeclaration | variableDeclaration)
 END TYPE
+```
 
+```
 event_forward_decl_sub
-	: 'EVENT' (identifier_name | 'CREATE' | 'DESTROY') identifier_name? (LPAREN parameters_list_sub? RPAREN)? 
-	| 'EVENT' 'TYPE' data_type_name identifier_name (LPAREN parameters_list_sub? RPAREN) 
-	;
+   : 'EVENT' (identifier_name | 'CREATE' | 'DESTROY') identifier_name? (LPAREN parameters_list_sub? RPAREN)? 
+   | 'EVENT' 'TYPE' data_type_name identifier_name (LPAREN parameters_list_sub? RPAREN) 
+   ;
 	
 event_forward_decl
-	: event_forward_decl_sub delim
-	;
+   : event_forward_decl_sub delim
+   ;
+```
 
 6. TypeVariableDeclaration
 // TODO: Falta el modificador de acceso 
+```
 TYPE VARIABLES
 (accessModificator | variableDeclaration | constantDeclaration)
 END VARIABLES
+```
 
 7. GlobalVariableDeclaration
-
+```
 ( GLOBAL | SHARED ) VARIABLES delim
 ( variableDeclaration | constantDeclaration )
 END VARIABLES delim
+```
 
 8. FunctionForwardDeclaration
 
+```
 accessModificator? scopeModificator? (FUNTION "dataTypeName" | SUBROUTINE) ID '(' parameterList ')' 
-	(LIBRARY "string" (ALIAS FOR "string")? )?
-	(RPCFUNC ALIAS FOR "string")?
-	(THROWS ID )?
+   (LIBRARY "string" (ALIAS FOR "string")? )?
+   (RPCFUNC ALIAS FOR "string")?
+   (THROWS ID )?
+```
 
 9. FunctionsForwardDeclaration
-
+```
 (FORWARD | TYPE) PROTOTYPES
    FunctionForwardDeclaration+
 END PROTOTYPES
+```
 
 10. Function Body
 
