@@ -8,6 +8,7 @@
 	2. [Variable Declaration](#variable-declaration)
 		1. [Constants Declaration](#constant-declaration)
 		2. [Array Declaration](#array-declaration)
+		3. [Expression Declaration] (#expression-declaration)
 	3. [Forward Declaration](#forward-declaration)
 	4. [DataType Declaration](#datatype-declaration)
 	5. [Type Variable Declaration](#type-variable-declaration)
