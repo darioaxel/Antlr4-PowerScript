@@ -6,16 +6,16 @@
 grammar powerscript;
 
 compilationUnit
- 	:  memberDeclaration* EOF
+    :  memberDeclaration* EOF
     ;
 
 memberDeclaration
-	: forwardDeclaration	
-	| fieldDeclaration
-	| dataTypeDeclaration
-	| typeVariablesDeclaration
-	| functionBodyDeclaration
-	;
+    : forwardDeclaration            
+    | fieldDeclaration
+    | dataTypeDeclaration
+    | typeVariablesDeclaration
+    | functionBodyDeclaration
+    ;
 
 // Forward declaration
 
@@ -28,7 +28,7 @@ forwardDeclarationBegin
 	;
 	
 forwardDeclarationEnd
-	: 'end' 'forward' delimiter
+	: 'end' 'forward' delimiter?
 	;
 	
 forwardDeclarationBody
@@ -43,7 +43,7 @@ dataTypeDeclaration
 	;
 
 dataTypeDeclarationBegin
-	: scopeModificator? dataTypeDeclarationBeginIdentifier  dataTypeDeclarationParent
+	: scopeModificator? dataTypeDeclarationBeginIdentifier  dataTypeDeclarationParent delimiter
 	;
 
 dataTypeDeclarationBeginIdentifier
@@ -51,7 +51,7 @@ dataTypeDeclarationBeginIdentifier
 	;
 
 dataTypeDeclarationParent
-	: dataTypeDeclarationParentExpecification? Identifier delimiter?
+	: dataTypeDeclarationParentExpecification? Identifier 
 	;
 
 dataTypeDeclarationParentExpecification
@@ -257,7 +257,7 @@ primaryAccessType
 	|   'public'
 	|   'PRIVATE'
 	|   'private'
-    |   'PROTECTED'
+        |   'PROTECTED'
 	|   'protected'
 	;
 
@@ -269,7 +269,7 @@ extendedAccessType
     ;
 
 dataTypeName
-	:   'ANY'
+    :   'ANY'
     |   'BLOB'
     |   'BOOLEAN'
     |   'BYTE'
