@@ -16,16 +16,15 @@ memberDeclaration
     | globalVariableDeclarationBlock
     | variableDeclaration
     | constantDeclaration
-   // | functionDeclaration
-   // | functionDeclarationBlock
+    | functionDeclaration
+    | functionDeclarationBlock
     | functionImplementation
-   // | onBodyImplementation
+    | onImplementation
     | eventDeclaration
    // | eventImplementation
     ;
 
 // 1. Forward Declaration
-
 forwardDeclaration
 	: forwardDeclarationBegin forwardDeclarationBody* forwardDeclarationEnd	  
 	;
@@ -149,73 +148,139 @@ constantDeclarator
     :   Identifier arrayLengthDeclarator* '=' variableInitializer
     ;
 
+// 7. Function Declaration
+functionDeclaration
+    : functionDeclarationHeader parametersList functionDeclarationEnd delimiter
+    ;
+
+functionDeclarationHeader
+    : ( primaryAccessType | extendedAccessType)? scopeModificator? functionHeaderIdentification 
+    ;
+
+functionDeclarationEnd
+    : functionDeclarationEndLibrary? functionDeclarationEndRPC? functionDeclarationEndThrows?
+    ;
+
+functionDeclarationEndLibrary
+    : 'library' Identifier ('alias' 'for' Identifier)?
+    ;
+
+functionDeclarationEndRPC
+    : 'rpcfunc' 'alias' 'for' Identifier
+    ;
+
+// 8. Function Declaration Block
+functionDeclarationBlock
+    : functionDeclarationBlockHeader functionDeclaration* functionDeclarationBlockEnd
+    ;
+
+functionDeclarationBlockHeader
+    : functionBlockType 'prototypes' delimiter
+    ;
+
+functionDeclarationBlockBody
+    : functionDeclaration
+    ;
+
+functionDeclarationBlockEnd
+    : 'end' 'prototypes' delimiter
+    ;
+  
 // 9. Function Implementation
 functionImplementation
-	: functionImplementationHeader functionImplementationBody* functionImplementationEnd delimiter
-	;
+    : functionImplementationHeader functionImplementationBody* functionImplementationEnd delimiter
+    ;
 	
 functionImplementationHeader
-	: primaryAccessType scopeModificator? functionImplementationHeaderIdentification parametersList functionImplementationHeaderEnd? ';'
-	;
+    : primaryAccessType scopeModificator? functionHeaderIdentification parametersList functionDeclarationEndThrows? ';'
+    ;
 
-functionImplementationHeaderIdentification
-	: functionImplementationHeaderDefinition Identifier
-	;
+functionHeaderIdentification
+    : functionHeaderDefinition Identifier
+    ;
 
-functionImplementationHeaderDefinition
-	: 'function' dataTypeName
-	| 'subroutine'
-	;
+functionHeaderDefinition
+    : 'function' dataTypeName
+    | 'subroutine'
+    ;
 
-functionImplementationHeaderEnd
-	: 'THROWS' Identifier
-	;
+functionDeclarationEndThrows
+    : 'throws' Identifier
+    ;
 
 functionImplementationBody
-	: statementBlock 
-	;
+    : statementBlock 
+    ;
 
 functionImplementationEnd
-	: 'end' 'function'
-	| 'end' 'subroutine'
-	;
+    : 'end' 'function'
+    | 'end' 'subroutine'
+    ;
+
+functionBlockType
+    : 'forward'
+    | 'type'
+    ;
+
+// 10. On Implementation
+onImplementation
+    : onImplementationHead onImplementationBody onImplementationEnd
+    ;
+
+onImplementationHead
+    : 'On' onImplementationIdentifier delimiter
+    ;
+
+onImplementationIdentifier
+    : Identifier
+    | 'open'
+    | 'close'
+    ;
+
+onImplementationBody
+    : statement*?
+    ;
+
+onImplementationEnd
+    : 'end' 'on' delimiter
+    ;
 
 // 11. Event Declaration
 eventDeclaration
-	: 'event' eventTypeDeclaration Identifier? parametersList
-	;
+    : 'event' eventTypeDeclaration Identifier? parametersList
+    ;
 
 eventTypeDeclaration
-	: 'type'
-	| creatorType
-	;
+    : 'type'
+    | creatorType
+    ;
 	
 creatorType
-	: 'create'
-	| 'destroy'
-	;
+    : 'create'
+    | 'destroy'
+    ;
 
 parametersList
-	: '(' parametersDeclarators? ')'
-	;
+    : '(' parametersDeclarators? ')'
+    ;
 	
 parametersDeclarators 
-	: parameterDeclarator (',' parameterDeclarator)*?
-	;
+    : parameterDeclarator (',' parameterDeclarator)*?
+    ;
 
 parameterDeclarator
-	: 'readonly'? 'ref'? primitiveType Identifier
-	;
+    : 'readonly'? 'ref'? primitiveType Identifier
+    ;
 
 scopeModificator
-	: 'global'
-	| 'local'
-	;
+    : 'global'
+    | 'local'
+    ;
 
 globalScopeModificator
-        : 'global'
-        | 'shared'
-        ;
+    : 'global'
+    | 'shared'
+    ;
 	
 statementBlock
     :   variableDeclaration
@@ -223,8 +288,8 @@ statementBlock
     ;
 
 statement
-	: expression
-	;
+    : expression
+    ;
 
 qualifiedName
     :   Identifier ('.' Identifier)*
@@ -232,8 +297,8 @@ qualifiedName
 
 expression
     :   primary
-	|   expression '.' Identifier
-	|   expression '(' expressionList? ')'
+    |   expression '.' Identifier
+    |   expression '(' expressionList? ')'
     |   '(' type ')' expression
     |   expression ('+=' | '-=')
     |   ('+'|'-'|'++'|'--') expression
@@ -289,13 +354,13 @@ modifier
     ;
 
 primaryAccessType
-	:   'PUBLIC'
-	|   'public'
-	|   'PRIVATE'
-	|   'private'
-        |   'PROTECTED'
-	|   'protected'
-	;
+    :   'PUBLIC'
+    |   'public'
+    |   'PRIVATE'
+    |   'private'
+    |   'PROTECTED'
+    |   'protected'
+    ;
 
 extendedAccessType
     :   'PROTECTEDREAD'
@@ -335,16 +400,16 @@ type
     ;
 
 arrayLengthDeclarator
-	: '[' arrayLengthValue* ']'
-	;
+    : '[' arrayLengthValue* ']'
+    ;
 
 arrayLengthValue
-	: arrayLengthRange (',' arrayLengthRange)*
-	;
+    : arrayLengthRange (',' arrayLengthRange)*
+    ;
 
 arrayLengthRange
-	:  IntegerLiteral ('TO' IntegerLiteral)*
-	;
+    :  IntegerLiteral ('TO' IntegerLiteral)*
+    ;
 
 
 delimiter
