@@ -11,13 +11,20 @@ compilationUnit
 
 memberDeclaration
     : forwardDeclaration            
-    | fieldDeclaration
-    | dataTypeDeclaration
-    | typeVariablesDeclaration
-    | functionBodyDeclaration
+    | typeDeclaration
+    | localVariableDeclarationBlock
+    | globalVariableDeclarationBlock
+    | variableDeclaration
+    | constantDeclaration
+   // | functionDeclaration
+   // | functionDeclarationBlock
+    | functionImplementation
+   // | onBodyImplementation
+    | eventDeclaration
+   // | eventImplementation
     ;
 
-// Forward declaration
+// 1. Forward Declaration
 
 forwardDeclaration
 	: forwardDeclarationBegin forwardDeclarationBody* forwardDeclarationEnd	  
@@ -32,63 +39,153 @@ forwardDeclarationEnd
 	;
 	
 forwardDeclarationBody
-	: fieldDeclaration
-	| dataTypeDeclaration
+	: variableDeclaration
+	| typeDeclaration
 	;
 
-// § Data type declaration	ejemplo: /Ginpix7/Lib/g7xCS_01/n_cst_gestoravisos.sru
-
-dataTypeDeclaration
-	: dataTypeDeclarationBegin dataTypeDeclarationBody? dataTypeDeclarationEnd
+// 2. Type Declaration	ejemplo: /Ginpix7/Lib/g7xCS_01/n_cst_gestoravisos.sru
+typeDeclaration
+	: typeDeclarationBegin typeDeclarationBody? typeDeclarationEnd
 	;
 
-dataTypeDeclarationBegin
-	: scopeModificator? dataTypeDeclarationBeginIdentifier  dataTypeDeclarationParent delimiter
+typeDeclarationBegin
+	: scopeModificator? typeDeclarationBeginIdentifier  typeDeclarationParent delimiter
 	;
 
-dataTypeDeclarationBeginIdentifier
+typeDeclarationBeginIdentifier
 	: 'type' Identifier 'from'
 	;
 
-dataTypeDeclarationParent
-	: dataTypeDeclarationParentExpecification? Identifier 
+typeDeclarationParent
+	: typeDeclarationParentExpecification? Identifier 
 	;
 
-dataTypeDeclarationParentExpecification
-	: dataTypeDeclarationParentExpecificationId 'within' 
+typeDeclarationParentExpecification
+	: typeDeclarationParentExpecificationId 'within' 
 	;
 
-dataTypeDeclarationParentExpecificationId
+typeDeclarationParentExpecificationId
 	: Identifier '`' Identifier
 	| Identifier
 	;	
 
-dataTypeDeclarationBody							
-	: dataTypeDeclarationDescriptor
-	| fieldDeclaration
-	| eventForwardDeclaration
+typeDeclarationBody							
+	: typeDeclarationDescriptor
+	| variableDeclaration
+	| eventDeclaration
 	;
 
-dataTypeDeclarationDescriptor
+typeDeclarationDescriptor
 	: 'descriptor' '"' Identifier '"' '=' '"' Identifier '"' delimiter?
 	;
 
-dataTypeDeclarationEnd
+typeDeclarationEnd
 	: 'end' 'type' delimiter?
 	;
 
-scopeModificator
-	: 'global'
-	| 'local'
+// 3. Local Variable Declaration Block
+localVariableDeclarationBlock
+	: localVariableDeclarationBegin  localVariableDeclarationBody localVariableDeclarationEnd
+	;
+
+localVariableDeclarationBody
+	: variableDeclaration
 	;
 	
-// EventForwardDeclaration
-
-eventForwardDeclaration
-	: 'event' eventForwardTypeDeclaration Identifier? parametersList
+localVariableDeclarationBegin
+	: 'type' 'variables' delimiter?
 	;
 
-eventForwardTypeDeclaration
+localVariableDeclarationEnd
+	: 'end' 'variables' delimiter
+	;
+
+// 4. Global Variable Declaration Block
+globalVariableDeclarationBlock
+    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody globalVariableDeclarationBlockEnd
+    ;
+
+globalVariableDeclarationBlockBegin
+    : globalScopeModificator 'variables' delimiter
+    ;
+
+globalVariableDeclarationBlockBody
+    : variableDeclaration
+    | constantDeclaration
+    ;
+
+globalVariableDeclarationBlockEnd
+    : 'end' 'variables' delimiter?
+    ;
+
+// 5. Variable Declaration
+variableDeclaration
+    :   extendedAccessType? type variableDeclarators delimiter
+    ;
+
+variableDeclarators
+    :   variableDeclarator (',' variableDeclarator)*
+    ;
+
+variableDeclarator
+    :   variableDeclaratorId ('=' variableInitializer)? 
+    ;
+
+variableInitializer 
+    : expression
+    ;
+
+variableDeclaratorId
+    :   Identifier ('[' ']')*
+    ;	
+
+// 6. Constants Declaration
+
+constantDeclaration
+    :   'constant' type constantDeclarator (',' constantDeclarator)* delimiter
+    ;
+
+constantDeclarator
+    :   Identifier arrayLengthDeclarator* '=' variableInitializer
+    ;
+
+// 9. Function Implementation
+functionImplementation
+	: functionImplementationHeader functionImplementationBody* functionImplementationEnd delimiter
+	;
+	
+functionImplementationHeader
+	: primaryAccessType scopeModificator? functionImplementationHeaderIdentification parametersList functionImplementationHeaderEnd? ';'
+	;
+
+functionImplementationHeaderIdentification
+	: functionImplementationHeaderDefinition Identifier
+	;
+
+functionImplementationHeaderDefinition
+	: 'function' dataTypeName
+	| 'subroutine'
+	;
+
+functionImplementationHeaderEnd
+	: 'THROWS' Identifier
+	;
+
+functionImplementationBody
+	: statementBlock 
+	;
+
+functionImplementationEnd
+	: 'end' 'function'
+	| 'end' 'subroutine'
+	;
+
+// 11. Event Declaration
+eventDeclaration
+	: 'event' eventTypeDeclaration Identifier? parametersList
+	;
+
+eventTypeDeclaration
 	: 'type'
 	| creatorType
 	;
@@ -109,86 +206,25 @@ parametersDeclarators
 parameterDeclarator
 	: 'readonly'? 'ref'? primitiveType Identifier
 	;
-	
-// § 3.6 Type Variables Declaration	
-typeVariablesDeclaration
-	: typeVariablesDeclarationBegin  typeVariablesDeclarationBody typeVariablesDeclarationEnd
+
+scopeModificator
+	: 'global'
+	| 'local'
 	;
 
-typeVariablesDeclarationBody
-	: fieldDeclaration
-	;
-	
-typeVariablesDeclarationBegin
-	: 'type' 'variables' delimiter?
-	;
-
-typeVariablesDeclarationEnd
-	: 'end' 'variables' delimiter
-	;
-
-// Function Body Declaration
-
-functionBodyDeclaration
-	: functionBodyDeclarationHeader functionBodyDeclarationBody* functionBodyDeclarationEnd delimiter
-	;
-	
-functionBodyDeclarationHeader
-	: primaryAccessType scopeModificator? functionBodyDeclarationHeaderIdentification parametersList functionBodyDeclarationHeaderEnd? ';'
-	;
-
-functionBodyDeclarationHeaderIdentification
-	: functionBodyDeclarationHeaderDefinition Identifier
-	;
-
-functionBodyDeclarationHeaderDefinition
-	: 'function' dataTypeName
-	| 'subroutine'
-	;
-
-functionBodyDeclarationHeaderEnd
-	: 'THROWS' Identifier
-	;
-
-functionBodyDeclarationBody
-	: statementBlock 
-	;
-
-functionBodyDeclarationEnd
-	: 'end' 'function'
-	| 'end' 'subroutine'
-	;
+globalScopeModificator
+        : 'global'
+        | 'shared'
+        ;
 	
 statementBlock
-    :   fieldDeclaration
+    :   variableDeclaration
     |   statement
     ;
 
 statement
 	: expression
 	;
-
-// Field Declaration
-
-fieldDeclaration
-    :   extendedAccessType? type variableDeclarators delimiter
-    ;
-
-variableDeclarators
-    :   variableDeclarator (',' variableDeclarator)*
-    ;
-
-variableDeclarator
-    :   variableDeclaratorId ('=' variableInitializer)? 
-    ;
-
-variableInitializer 
-    : expression
-    ;
-
-variableDeclaratorId
-    :   Identifier ('[' ']')*
-    ;
 
 qualifiedName
     :   Identifier ('.' Identifier)*
@@ -235,9 +271,9 @@ expressionList
     ;
 
 primary
- 	:  '(' expression ')'
+    :  '(' expression ')'
     |  literal	
-	|   Identifier
+    |   Identifier
     ;
 
 literal
@@ -253,7 +289,7 @@ modifier
     ;
 
 primaryAccessType
-	:	'PUBLIC'
+	:   'PUBLIC'
 	|   'public'
 	|   'PRIVATE'
 	|   'private'
@@ -297,6 +333,18 @@ dataTypeName
 type
     :   primitiveType ('[' ']')*
     ;
+
+arrayLengthDeclarator
+	: '[' arrayLengthValue* ']'
+	;
+
+arrayLengthValue
+	: arrayLengthRange (',' arrayLengthRange)*
+	;
+
+arrayLengthRange
+	:  IntegerLiteral ('TO' IntegerLiteral)*
+	;
 
 
 delimiter
