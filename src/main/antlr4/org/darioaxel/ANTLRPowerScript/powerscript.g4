@@ -376,6 +376,8 @@ primary
 literal
     :   IntegerLiteral
     |   BooleanLiteral
+    |	StringLiteral
+    |   CharacterLiteral
     |   'null'
     ;
 
@@ -482,6 +484,40 @@ IntegerTypeSuffix
 BooleanLiteral
     :   'true'
     |   'false'
+    ;
+
+// §3.10.3 Character Literals
+
+CharacterLiteral
+    :   '\'' SingleCharacter '\''
+    |   '\'' EscapeSequence '\''
+    ;
+
+fragment
+SingleCharacter
+    :   ~['\\]
+    ;
+	
+// §3.10.4 String Literals
+
+StringLiteral
+    :   '"' StringCharacters? '"'
+    ;
+fragment
+StringCharacters
+    :   StringCharacter+
+    ;
+fragment
+StringCharacter
+    :   ~["\\]
+    |   EscapeSequence
+    ;
+
+fragment
+EscapeSequence
+    :   '\\' [btnfr"'\\]
+    |   OctalEscape
+    |   UnicodeEscape
     ;
 
 fragment
