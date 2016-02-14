@@ -21,7 +21,7 @@ memberDeclaration
     | functionImplementation
     | onImplementation
     | eventDeclaration
-   // | eventImplementation
+    | eventImplementation
     ;
 
 // 1. Forward Declaration
@@ -247,18 +247,50 @@ onImplementationEnd
 
 // 11. Event Declaration
 eventDeclaration
-    : 'event' eventTypeDeclaration Identifier? parametersList
+    : 'event' eventTypeDeclaration Identifier? parametersList delimiter
     ;
 
 eventTypeDeclaration
     : 'type'
     | creatorType
     ;
-	
+
 creatorType
     : 'create'
     | 'destroy'
     ;
+
+// 12. Event Implementation
+eventImplementation
+    : eventImplementationHead eventImplementationBody eventImplementationEnd
+    ;
+
+eventImplementationHead
+    : 'event' eventImplementationHeadType? eventImplementationHeadId? eventImplementationClosure parametersList?
+    ;
+
+eventImplementationHeadType
+    : 'type' dataTypeName
+    ;
+
+eventImplementationHeadId
+    : Identifier '::'
+    ;
+
+eventImplementationClosure
+    : Identifier
+    | 'open'
+    | 'close'
+    ;
+
+eventImplementationBody 
+    : statement*?
+    ;
+
+eventImplementationEnd
+    : 'end' 'event' delimiter
+    ;    
+	
 
 parametersList
     : '(' parametersDeclarators? ')'
@@ -379,14 +411,14 @@ dataTypeName
     |   'DATE'
     |   'DATETIME'
     |   'DECIMAL'
-    |   'DEC'
+    |   'dec'
     |   'DOUBLE'
-    |   'INTEGER'
-    |   'INT'
-    |   'LONG'
-    |   'LONGLONG'
-    |   'REAL'
-    |   'STRING'
+    |   'integer'
+    |   'int'
+    |   'long'
+    |   'longlong'
+    |   'real'
+    |   'string'
     |   'TIME'
     |   'UNSIGNEDINTEGER'
     |   'UINT'
