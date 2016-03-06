@@ -328,6 +328,7 @@ statement
 //	| tryCatchStatement
 //	| doLoopWhileStatement
 //	| doWhileStatement
+	| forStatement
 	| returnStatement
 	| destroyStatement
 //	| superStatement
@@ -335,6 +336,32 @@ statement
 	| goToStatement
 	| basicStatement
     ;
+
+forStatement
+	: forStatementBegin forStatementBody forStatementEnd
+	;
+
+forStatementBody
+	: statement* delimiter
+	;
+
+forStatementEnd
+	: 'NEXT' delimiter
+	;
+
+forStatementBegin
+	: 'FOR' expression delimiter forStatementBeginTo?
+	;
+
+forStatementBeginTo
+	: 'TO' expression forStatementBeginToStep delimiter
+	;
+
+forStatementBeginToStep
+	: 'STEP' IntegerLiteral
+	;
+
+
 
 ifStatement
 	: 'IF' expression ifStatementThen ifStatementBody+? ifStatementEnd 
