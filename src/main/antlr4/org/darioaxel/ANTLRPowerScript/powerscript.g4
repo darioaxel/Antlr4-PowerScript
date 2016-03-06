@@ -323,7 +323,70 @@ statementBlock
 
 statement
     : expression
+	| ifStatement
+	| callStatement
+//	| tryCatchStatement
+//	| doLoopWhileStatement
+//	| doWhileStatement
+	| returnStatement
+	| destroyStatement
+//	| superStatement
+	| throwStatement
+	| goToStatement
+	| basicStatement
     ;
+
+ifStatement
+	: 'IF' expression ifStatementThen ifStatementBody+? ifStatementEnd 
+	;
+
+ifStatementBody
+	: statement
+	| ifStatementElseIf
+	;
+
+ifStatementElseIf
+	: 'ELSEIF' expression ifStatementThen 
+	| 'ELSE' statement+?
+	;
+
+ifStatementEnd
+	: 'END' 'IF' delimiter
+	;
+	
+ifStatementThen
+	: 'THEN' delimiter
+	;
+
+goToStatement
+	: 'GOTO' Identifier
+	;
+
+destroyStatement
+	: 'DESTROY' Identifier
+	;
+	
+returnStatement
+	: 'RETURN' expression
+	;
+
+throwStatement
+	: 'THROW' expression
+	;
+
+callStatement
+	: 'CALL' Identifier callStatementSubControl? '::' Identifier 
+	;
+
+callStatementSubControl
+	: '`' Identifier
+	;	
+
+basicStatement
+	: 'EXIT'
+	| 'HALT'
+	| 'CONTINUE'
+	;
 
 qualifiedName
     :   Identifier ('.' Identifier)*
@@ -332,6 +395,7 @@ qualifiedName
 expression
     :   primary
     |   expression '.' Identifier
+	|   expression '=' 'CREATE' 'USING'? Identifier	
     |   expression '(' expressionList? ')'
     |   '(' type ')' expression
     |   expression ('+=' | '-=')
