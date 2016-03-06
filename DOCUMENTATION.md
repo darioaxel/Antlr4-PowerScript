@@ -8,18 +8,18 @@
 	2. [Variable Declaration](#variable-declaration)
 		1. [Constants Declaration](#constant-declaration)
 		2. [Array Declaration](#array-declaration)
-		3. [Expression Declaration] (#expression-declaration)
-	3. [Forward Declaration](#forward-declaration)
-	4. [DataType Declaration](#datatype-declaration)
-	5. [Type Variable Declaration](#type-variable-declaration)
-	6. [Global Variable Declaration](#global-variable-declaration)
-	7. [Function Forward Declaration](#function-forward-declaration)
-	8. [Funtions Forward Delcaration](#functions-forward-declaration)
-    9. [Function Body Declaration](#function-body-declaration)
-    10. [On Body Declaration](#on-body-declaration)
-    11. [Event Body Declaration](#event-body-declaration)
-	12. [Statements](#statements)
-	13. [Expressions](#expressions)
+	3. [Expression Declaration](#expression-declaration)
+	4. [Forward Declaration](#forward-declaration)
+	5. [DataType Declaration](#datatype-declaration)
+	6. [Type Variable Declaration](#type-variable-declaration)
+	7. [Global Variable Declaration](#global-variable-declaration)
+	8. [Function Forward Declaration](#function-forward-declaration)
+	9. [Funtions Forward Delcaration](#functions-forward-declaration)
+    10. [Function Body Declaration](#function-body-declaration)
+    11. [On Body Declaration](#on-body-declaration)
+    12. [Event Body Declaration](#event-body-declaration)
+	13. [Loops](#loops)
+	
 
 ## Antlr4-PowerScript
 Creating a grammar for PowerScript in Antlr4.
@@ -58,11 +58,6 @@ $PBExportComments$Menu desglose de atrasos.
 ```
 
 3. Variables
-
-DONE. 
-TODO. Transform all capitalized reserved words 
-
-/*	4. Variables
 
 DONE. 00_BooleanLiteral
 	DONE. 01_Character_StringLiteral
@@ -104,13 +99,14 @@ event_forward_decl
 
 6. TypeVariableDeclaration
 // TODO: Falta el modificador de acceso 
-```
+'''
 TYPE VARIABLES
 (accessModificator | variableDeclaration | constantDeclaration)
 END VARIABLES
-```
+'''
 
 7. GlobalVariableDeclaration
+
 ```
 ( GLOBAL | SHARED ) VARIABLES delim
 ( variableDeclaration | constantDeclaration )
@@ -136,5 +132,7 @@ END PROTOTYPES
 10. Function Body
 
 11. Function On_body
+
+
 
 

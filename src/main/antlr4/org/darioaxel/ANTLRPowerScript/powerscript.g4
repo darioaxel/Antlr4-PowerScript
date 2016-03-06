@@ -10,8 +10,8 @@ compilationUnit
     ;
 
 memberDeclaration
-    : forwardDeclaration            
-    | typeDeclaration
+    : forwardDeclaration            	
+    | typeDeclaration					
     | localVariableDeclarationBlock
     | globalVariableDeclarationBlock
     | variableDeclaration
@@ -139,7 +139,6 @@ variableDeclaratorId
     ;	
 
 // 6. Constants Declaration
-
 constantDeclaration
     :   'constant' type constantDeclarator (',' constantDeclarator)* delimiter
     ;
@@ -291,7 +290,6 @@ eventImplementationEnd
     : 'end' 'event' delimiter
     ;    
 	
-
 parametersList
     : '(' parametersDeclarators? ')'
     ;
@@ -301,8 +299,12 @@ parametersDeclarators
     ;
 
 parameterDeclarator
-    : 'readonly'? 'ref'? primitiveType Identifier
+    : 'readonly'? 'ref'? primitiveType Identifier arrayType?
     ;
+
+arrayType
+	: '[' ']'
+	;
 
 scopeModificator
     : 'global'
@@ -370,7 +372,7 @@ expressionList
 primary
     :  '(' expression ')'
     |  literal	
-    |   Identifier
+    |  Identifier
     ;
 
 literal
@@ -378,6 +380,8 @@ literal
     |   BooleanLiteral
     |	StringLiteral
     |   CharacterLiteral
+	// | 	DecimalLiteral
+    | 	DateTimeLiteral
     |   'null'
     ;
 
@@ -406,15 +410,15 @@ extendedAccessType
 dataTypeName
     :   'ANY'
     |   'BLOB'
-    |   'BOOLEAN'
-    |   'BYTE'
-    |   'CHARACTER'
-    |   'CHAR'
-    |   'DATE'
-    |   'DATETIME'
-    |   'DECIMAL'
+    |   'boolean'
+    |   'byte'
+    |   'character'
+    |   'char'
+    |   'date'
+    |   'datetime'
+    |   'decimal'
     |   'dec'
-    |   'DOUBLE'
+    |   'double'
     |   'integer'
     |   'int'
     |   'long'
@@ -430,8 +434,13 @@ dataTypeName
     ;
 
 type
-    :   primitiveType ('[' ']')*
+    :   primitiveType 
+	|   objectType
     ;
+
+objectType
+	:	Identifier ( '.' Identifier )*
+	;
 
 arrayLengthDeclarator
     : '[' arrayLengthValue* ']'
@@ -444,7 +453,6 @@ arrayLengthValue
 arrayLengthRange
     :  IntegerLiteral ('TO' IntegerLiteral)*
     ;
-
 
 delimiter
     :   ';'
@@ -461,9 +469,11 @@ primitiveType
     |   'float'
     |   'double'
     |   'real'
+	|	'string'
+	| 	'date'
     ;
 
-// §3.10.1 Integer Literals
+// Integer Literals
 
 IntegerLiteral
     :   DecimalIntegerLiteral
@@ -479,14 +489,14 @@ IntegerTypeSuffix
     :   [lL]
     ;
 
-// §3.10.3 Boolean Literals
+// Boolean Literals
 
 BooleanLiteral
     :   'true'
     |   'false'
     ;
 
-// §3.10.3 Character Literals
+// Character Literals
 
 CharacterLiteral
     :   '\'' SingleCharacter '\''
@@ -498,7 +508,7 @@ SingleCharacter
     :   ~['\\]
     ;
 	
-// §3.10.4 String Literals
+// String Literals
 
 StringLiteral
     :   '"' StringCharacters? '"'
@@ -587,14 +597,9 @@ OctalDigitOrUnderscore
     ;
 
 fragment
-ZeroToThree
-    :   [0-3]
-    ;
-
-fragment
 DigitOrUnderscore
     :   Digit
-   |   '_'
+    |   '_'
     ;
 
 fragment
@@ -602,13 +607,43 @@ Underscores
     :   '_'+
     ;
 
-// §3.10.7 NULL
+// DateTimeLiteral
+DateTimeLiteral
+	: DateTimeYear '-' DateTimeMonth '-' DateTimeDay
+	;
 
-NullLiteral
-    :   'null'
-    ;
+fragment
+DateTimeYear
+	: ZeroToTwo Digit Digit Digit
+	;
 
-// §3.11 SEPARATORS
+fragment
+DateTimeMonth
+	: ZeroToOne Digit
+	;
+
+fragment
+DateTimeDay
+	: ZeroToThree Digit
+	;
+
+fragment
+ZeroToThree
+	: [0-3]
+	;
+	
+fragment
+ZeroToTwo
+	: [0-2]
+	;
+
+fragment
+ZeroToOne
+	: [0-1]
+	;
+
+
+// SEPARATORS
 
 LPAREN          : '(';
 RPAREN          : ')';
