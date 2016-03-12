@@ -75,7 +75,11 @@ typeDeclarationBody
 	;
 
 typeDeclarationDescriptor
-	: 'descriptor' '"' Identifier '"' '=' '"' Identifier '"' delimiter?
+	: 'descriptor' quotedIdentifier '=' quotedIdentifier delimiter
+	;
+
+quotedIdentifier
+	: QUOTE Identifier QUOTE
 	;
 
 typeDeclarationEnd
@@ -325,9 +329,8 @@ statement
     : expression
 	| ifStatement
 	| callStatement
-//	| tryCatchStatement
-//	| doLoopWhileStatement
-//	| doWhileStatement
+	| tryCatchStatement
+	| doLoopWhileStatement
 	| forStatement
 	| returnStatement
 	| destroyStatement
@@ -335,6 +338,39 @@ statement
 	| throwStatement
 	| goToStatement
 	| basicStatement
+    ;
+
+doLoopWhileStatement
+    :   doWhileUntilLoop
+    |   doLoopWhileUntil
+    ;
+
+doWhileUntilLoop
+    :   'DO' ('UNTIL' | 'WHILE') expression delimiter statement* delimiter 'LOOP' delimiter
+    ;
+
+doLoopWhileUntil
+    :   'DO' delimiter statement* delimiter 'LOOP' ('WHILE' | 'UNTIL') expression delimiter
+    ;
+
+tryCatchStatement
+    : tryStatement catchStatement*? finallyStatement? endTryStatement
+    ;
+
+tryStatement 
+    : 'TRY' delimiter statement* delimiter
+    ;
+
+catchStatement
+    : 'CATCH' '(' variableDeclaration ')' delimiter statement* delimiter
+    ;
+
+finallyStatement
+    : 'FINALLY' delimiter statement* delimiter
+    ;
+
+endTryStatement
+    : 'END' 'TRY' delimiter
     ;
 
 forStatement
@@ -360,8 +396,6 @@ forStatementBeginTo
 forStatementBeginToStep
 	: 'STEP' IntegerLiteral
 	;
-
-
 
 ifStatement
 	: 'IF' expression ifStatementThen ifStatementBody+? ifStatementEnd 
@@ -546,8 +580,8 @@ arrayLengthRange
     ;
 
 delimiter
-    :   ';'
-    |   '\n'
+    :    ';' '\n'*
+	|    '\n'+
     ;
 
 primitiveType
@@ -745,6 +779,7 @@ RBRACK          : ']';
 SEMI            : ';';
 COMMA           : ',';
 DOT             : '.';
+QUOTE			: '"';
 
 // §3.12 OPERATORS
 
