@@ -3,7 +3,7 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar powerscript;
+grammar powerscript_01;
 
 compilationUnit
     :  memberDeclaration* EOF
@@ -12,16 +12,7 @@ compilationUnit
 memberDeclaration
     : forwardDeclaration            	
     | typeDeclaration					
-    | localVariableDeclarationBlock
-    | globalVariableDeclarationBlock
     | variableDeclaration
-    | constantDeclaration
-    | functionDeclaration
-    | functionDeclarationBlock
-    | functionImplementation
-    | onImplementation
-    | eventDeclaration
-    | eventImplementation
     ;
 
 // 1. Forward Declaration
@@ -34,7 +25,7 @@ forwardDeclarationBegin
 	;
 	
 forwardDeclarationEnd
-	: 'end' 'forward' delimiter?
+	: 'end' 'forward' delimiter
 	;
 	
 forwardDeclarationBody
@@ -42,7 +33,7 @@ forwardDeclarationBody
 	| typeDeclaration
 	;
 
-// 2. Type Declaration	ejemplo: /Ginpix7/Lib/g7xCS_01/n_cst_gestoravisos.sru
+// 2. Type Declaration
 typeDeclaration
 	: typeDeclarationBegin typeDeclarationBody? typeDeclarationEnd
 	;
@@ -71,7 +62,6 @@ typeDeclarationParentExpecificationId
 typeDeclarationBody							
 	: typeDeclarationDescriptor
 	| variableDeclaration
-	| eventDeclaration
 	;
 
 typeDeclarationDescriptor
@@ -86,44 +76,9 @@ typeDeclarationEnd
 	: 'end' 'type' delimiter?
 	;
 
-// 3. Local Variable Declaration Block
-localVariableDeclarationBlock
-	: localVariableDeclarationBegin  localVariableDeclarationBody localVariableDeclarationEnd
-	;
-
-localVariableDeclarationBody
-	: variableDeclaration
-	;
-	
-localVariableDeclarationBegin
-	: 'type' 'variables' delimiter?
-	;
-
-localVariableDeclarationEnd
-	: 'end' 'variables' delimiter
-	;
-
-// 4. Global Variable Declaration Block
-globalVariableDeclarationBlock
-    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody globalVariableDeclarationBlockEnd
-    ;
-
-globalVariableDeclarationBlockBegin
-    : globalScopeModificator 'variables' delimiter
-    ;
-
-globalVariableDeclarationBlockBody
-    : variableDeclaration
-    | constantDeclaration
-    ;
-
-globalVariableDeclarationBlockEnd
-    : 'end' 'variables' delimiter?
-    ;
-
 // 5. Variable Declaration
 variableDeclaration
-    :   extendedAccessType? type variableDeclarators delimiter
+    :  scopeModificator? extendedAccessType? type variableDeclarators delimiter
     ;
 
 variableDeclarators
@@ -142,170 +97,6 @@ variableDeclaratorId
     :   Identifier ('[' ']')*
     ;	
 
-// 6. Constants Declaration
-constantDeclaration
-    :   'constant' type constantDeclarator (',' constantDeclarator)* delimiter
-    ;
-
-constantDeclarator
-    :   Identifier arrayLengthDeclarator* '=' variableInitializer
-    ;
-
-// 7. Function Declaration
-functionDeclaration
-    : functionDeclarationHeader parametersList functionDeclarationEnd delimiter
-    ;
-
-functionDeclarationHeader
-    : ( primaryAccessType | extendedAccessType)? scopeModificator? functionHeaderIdentification 
-    ;
-
-functionDeclarationEnd
-    : functionDeclarationEndLibrary? functionDeclarationEndRPC? functionDeclarationEndThrows?
-    ;
-
-functionDeclarationEndLibrary
-    : 'library' Identifier ('alias' 'for' Identifier)?
-    ;
-
-functionDeclarationEndRPC
-    : 'rpcfunc' 'alias' 'for' Identifier
-    ;
-
-// 8. Function Declaration Block
-functionDeclarationBlock
-    : functionDeclarationBlockHeader functionDeclaration* functionDeclarationBlockEnd
-    ;
-
-functionDeclarationBlockHeader
-    : functionBlockType 'prototypes' delimiter
-    ;
-
-functionDeclarationBlockBody
-    : functionDeclaration
-    ;
-
-functionDeclarationBlockEnd
-    : 'end' 'prototypes' delimiter
-    ;
-  
-// 9. Function Implementation
-functionImplementation
-    : functionImplementationHeader functionImplementationBody* functionImplementationEnd delimiter
-    ;
-	
-functionImplementationHeader
-    : primaryAccessType scopeModificator? functionHeaderIdentification parametersList functionDeclarationEndThrows? ';'
-    ;
-
-functionHeaderIdentification
-    : functionHeaderDefinition Identifier
-    ;
-
-functionHeaderDefinition
-    : 'function' dataTypeName
-    | 'subroutine'
-    ;
-
-functionDeclarationEndThrows
-    : 'throws' Identifier
-    ;
-
-functionImplementationBody
-    : statementBlock 
-    ;
-
-functionImplementationEnd
-    : 'end' 'function'
-    | 'end' 'subroutine'
-    ;
-
-functionBlockType
-    : 'forward'
-    | 'type'
-    ;
-
-// 10. On Implementation
-onImplementation
-    : onImplementationHead onImplementationBody onImplementationEnd
-    ;
-
-onImplementationHead
-    : 'On' onImplementationIdentifier delimiter
-    ;
-
-onImplementationIdentifier
-    : Identifier
-    | 'open'
-    | 'close'
-    ;
-
-onImplementationBody
-    : statement*?
-    ;
-
-onImplementationEnd
-    : 'end' 'on' delimiter
-    ;
-
-// 11. Event Declaration
-eventDeclaration
-    : 'event' eventTypeDeclaration Identifier? parametersList delimiter
-    ;
-
-eventTypeDeclaration
-    : 'type'
-    | creatorType
-    ;
-
-creatorType
-    : 'create'
-    | 'destroy'
-    ;
-
-// 12. Event Implementation
-eventImplementation
-    : eventImplementationHead eventImplementationBody eventImplementationEnd
-    ;
-
-eventImplementationHead
-    : 'event' eventImplementationHeadType? eventImplementationHeadId? eventImplementationClosure parametersList?
-    ;
-
-eventImplementationHeadType
-    : 'type' dataTypeName
-    ;
-
-eventImplementationHeadId
-    : Identifier '::'
-    ;
-
-eventImplementationClosure
-    : Identifier
-    | 'open'
-    | 'close'
-    ;
-
-eventImplementationBody 
-    : statement*?
-    ;
-
-eventImplementationEnd
-    : 'end' 'event' delimiter
-    ;    
-	
-parametersList
-    : '(' parametersDeclarators? ')'
-    ;
-	
-parametersDeclarators 
-    : parameterDeclarator (',' parameterDeclarator)*?
-    ;
-
-parameterDeclarator
-    : 'readonly'? 'ref'? primitiveType Identifier arrayType?
-    ;
-
 arrayType
 	: '[' ']'
 	;
@@ -313,10 +104,6 @@ arrayType
 scopeModificator
     : 'global'
     | 'local'
-    ;
-
-globalScopeModificator
-    : 'global'
     | 'shared'
     ;
 	
@@ -327,127 +114,7 @@ statementBlock
 
 statement
     : expression
-	| ifStatement
-	| callStatement
-	| tryCatchStatement
-	| doLoopWhileStatement
-	| forStatement
-	| returnStatement
-	| destroyStatement
-//	| superStatement
-	| throwStatement
-	| goToStatement
-	| basicStatement
     ;
-
-doLoopWhileStatement
-    :   doWhileUntilLoop
-    |   doLoopWhileUntil
-    ;
-
-doWhileUntilLoop
-    :   'DO' ('UNTIL' | 'WHILE') expression delimiter statement* delimiter 'LOOP' delimiter
-    ;
-
-doLoopWhileUntil
-    :   'DO' delimiter statement* delimiter 'LOOP' ('WHILE' | 'UNTIL') expression delimiter
-    ;
-
-tryCatchStatement
-    : tryStatement catchStatement*? finallyStatement? endTryStatement
-    ;
-
-tryStatement 
-    : 'TRY' delimiter statement* delimiter
-    ;
-
-catchStatement
-    : 'CATCH' '(' variableDeclaration ')' delimiter statement* delimiter
-    ;
-
-finallyStatement
-    : 'FINALLY' delimiter statement* delimiter
-    ;
-
-endTryStatement
-    : 'END' 'TRY' delimiter
-    ;
-
-forStatement
-	: forStatementBegin forStatementBody forStatementEnd
-	;
-
-forStatementBody
-	: statement* delimiter
-	;
-
-forStatementEnd
-	: 'NEXT' delimiter
-	;
-
-forStatementBegin
-	: 'FOR' expression delimiter forStatementBeginTo?
-	;
-
-forStatementBeginTo
-	: 'TO' expression forStatementBeginToStep delimiter
-	;
-
-forStatementBeginToStep
-	: 'STEP' IntegerLiteral
-	;
-
-ifStatement
-	: 'IF' expression ifStatementThen ifStatementBody+? ifStatementEnd 
-	;
-
-ifStatementBody
-	: statement
-	| ifStatementElseIf
-	;
-
-ifStatementElseIf
-	: 'ELSEIF' expression ifStatementThen 
-	| 'ELSE' statement+?
-	;
-
-ifStatementEnd
-	: 'END' 'IF' delimiter
-	;
-	
-ifStatementThen
-	: 'THEN' delimiter
-	;
-
-goToStatement
-	: 'GOTO' Identifier
-	;
-
-destroyStatement
-	: 'DESTROY' Identifier
-	;
-	
-returnStatement
-	: 'RETURN' expression
-	;
-
-throwStatement
-	: 'THROW' expression
-	;
-
-callStatement
-	: 'CALL' Identifier callStatementSubControl? '::' Identifier 
-	;
-
-callStatementSubControl
-	: '`' Identifier
-	;	
-
-basicStatement
-	: 'EXIT'
-	| 'HALT'
-	| 'CONTINUE'
-	;
 
 qualifiedName
     :   Identifier ('.' Identifier)*
@@ -505,7 +172,6 @@ literal
     |   BooleanLiteral
     |	StringLiteral
     |   CharacterLiteral
-	// | 	DecimalLiteral
     | 	DateTimeLiteral
     |   'null'
     ;
@@ -515,6 +181,11 @@ modifier
     |   'PRIVATE' ':'
     |   'PROTECTED' ':'
     ;
+
+accessType
+	: primaryAccessType
+	| extendedAccessType
+	;
 
 primaryAccessType
     :   'PUBLIC'
@@ -580,8 +251,7 @@ arrayLengthRange
     ;
 
 delimiter
-    :    ';' '\n'*
-	|    '\n'+
+    :   '\t'*? '\n'+ '\t'*?
     ;
 
 primitiveType
@@ -832,7 +502,7 @@ PBLetter
 
 fragment
 PBLetterOrDigit
-    :   [a-zA-Z0-9$-_%] // these are the "java letters or digits" below 0xFF
+    :   [a-zA-Z0-9$-_%] 
     ;
 
 // § COMMENTS & WHITESPACES

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.darioaxel.ANTLRPowerScript;
+package org.darioaxel.powerscript;
 
 import java.util.BitSet;
 import org.antlr.v4.runtime.ANTLRErrorListener;

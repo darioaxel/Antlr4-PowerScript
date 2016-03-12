@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.darioaxel.ANTLRPowerScript;
+package org.darioaxel.powerscript;
 
 import java.io.File;
 import java.io.FileReader;
@@ -40,34 +40,52 @@ import org.junit.Test;
  *
  * @author darioaxel
  */
-public class TestPowerScript {
+public class TestPowerScript01 {
      
-    private static final Path test_powerscript01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/Powerscript/powerscript01.sru");
+    private static final Path test_forward_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/forward/forward_01.sru");
+    private static final Path test_forward_02 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/forward/forward_02.sru");
+    private static final Path test_forward_03 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/forward/forward_03.sru");
     
     @Test
     public void testPowerscript01() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
-        powerscriptParser.CompilationUnitContext context01 = parsePowerscript01(test_powerscript01.toFile(), errorListener);
+        powerscript_01Parser.CompilationUnitContext context01 = parsePowerscript_01(test_forward_01.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
-    private powerscriptParser.CompilationUnitContext parsePowerscript01(File program, 
+    @Test
+    public void testPowerscript02() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context02 = parsePowerscript_01(test_forward_02.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPowerscript03() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context03 = parsePowerscript_01(test_forward_03.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    private powerscript_01Parser.CompilationUnitContext parsePowerscript_01(File program, 
             TestErrorListener errorListener) throws IOException {
         
         TokenStream inputTokenStream = createInputTokenStream(program);
-        powerscriptParser parser = new powerscriptParser(inputTokenStream);
+        powerscript_01Parser parser = new powerscript_01Parser(inputTokenStream);
 
         parser.addErrorListener(errorListener);
 
-        powerscriptParser.CompilationUnitContext context = parser.compilationUnit();
+        powerscript_01Parser.CompilationUnitContext context = parser.compilationUnit();
         return context;
     }
     
       private TokenStream createInputTokenStream(File program) throws IOException {
         
         CharStream inputCharStream = new ANTLRInputStream(new FileReader(program));
-        TokenSource tokenSource = new powerscriptLexer(inputCharStream);
+        TokenSource tokenSource = new powerscript_01Lexer(inputCharStream);
         TokenStream inputTokenStream = new CommonTokenStream(tokenSource);
         
         return inputTokenStream;
