@@ -35,7 +35,7 @@ forwardDeclarationBody
 
 // 2. Type Declaration
 typeDeclaration
-	: typeDeclarationBegin typeDeclarationBody? typeDeclarationEnd
+	: typeDeclarationBegin typeDeclarationBody*? typeDeclarationEnd
 	;
 
 typeDeclarationBegin
