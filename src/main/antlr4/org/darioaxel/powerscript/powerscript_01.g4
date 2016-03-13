@@ -254,10 +254,6 @@ arrayLengthRange
     :  IntegerLiteral ('TO' IntegerLiteral)*
     ;
 
-delimiter
-    :   '\t'*? '\n'+ '\t'*?
-    ;
-
 primitiveType
     :   'boolean'
     |   'char'
@@ -410,6 +406,10 @@ Underscores
 DateTimeLiteral
 	: DateTimeYear '-' DateTimeMonth '-' DateTimeDay
 	;
+
+delimiter
+    :   '\t'*? '\n'+ '\t'*?
+    ;
 
 fragment
 DateTimeYear
