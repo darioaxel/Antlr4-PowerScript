@@ -86,20 +86,12 @@ variableDeclarators
     ;
 
 variableDeclarator
-    :   variableDeclaratorId ('=' variableInitializer)? 
+    :   Identifier arrayLengthDeclarator? ('=' variableInitializer)? 
     ;
 
 variableInitializer 
     : expression
     ;
-
-variableDeclaratorId
-    :   Identifier ('[' ']')*
-    ;	
-
-arrayType
-	: '[' ']'
-	;
 
 scopeModificator
     : 'global'
@@ -235,12 +227,12 @@ dataTypeName
 
 type
     :   primitiveType 
-	|   objectType
+    |   objectType
     ;
 
 objectType
-	:	Identifier ( '.' Identifier )*
-	;
+    :	Identifier ( '.' Identifier )*
+    ;
 
 arrayLengthDeclarator
     : '[' arrayLengthValue* ']'
@@ -407,10 +399,6 @@ DateTimeLiteral
 	: DateTimeYear '-' DateTimeMonth '-' DateTimeDay
 	;
 
-delimiter
-    :   '\t'*? '\n'+ '\t'*?
-    ;
-
 fragment
 DateTimeYear
 	: ZeroToTwo Digit Digit Digit
@@ -441,6 +429,9 @@ ZeroToOne
 	: [0-1]
 	;
 
+delimiter
+    :   '\n'
+    ;
 
 // SEPARATORS
 
