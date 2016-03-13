@@ -198,9 +198,13 @@ primaryAccessType
 
 extendedAccessType
     :   'PROTECTEDREAD'
+    |   'protectedread'
     |   'PRIVATEREAD'
+    |   'privateread'
     |   'PROTECTEDWRITE'
+    |   'protectedwrite'
     |   'PRIVATEWRITE'
+    |   'privatewrite'
     ;
 
 dataTypeName
@@ -264,8 +268,8 @@ primitiveType
     |   'float'
     |   'double'
     |   'real'
-	|	'string'
-	| 	'date'
+    |	'string'
+    | 	'date'
     ;
 
 // Integer Literals
@@ -514,4 +518,4 @@ LINE_COMMENT
     :   '//' ~[\r\n]* -> skip
     ;
 	
-WS: [ \n\t\r]+ -> skip;
+WS: [ \t\r]+ -> skip;
