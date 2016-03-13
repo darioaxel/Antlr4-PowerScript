@@ -46,8 +46,12 @@ public class TestPowerScript01 {
     private static final Path test_forward_02 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/forward/forward_02.sru");
     private static final Path test_forward_03 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/forward/forward_03.sru");
     
+    private static final Path test_globaltype_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/globalType/globaltype_01.sru");
+    private static final Path test_globaltype_02 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/globalType/globaltype_02.sru");
+    private static final Path test_globaltype_03 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/globalType/globaltype_03.sru");
+    
     @Test
-    public void testPowerscript01() throws IOException {
+    public void testPowerscript_forward_01() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
         powerscript_01Parser.CompilationUnitContext context01 = parsePowerscript_01(test_forward_01.toFile(), errorListener);
@@ -55,7 +59,7 @@ public class TestPowerScript01 {
     }
     
     @Test
-    public void testPowerscript02() throws IOException {
+    public void testPowerscript_forward_02() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
         powerscript_01Parser.CompilationUnitContext context02 = parsePowerscript_01(test_forward_02.toFile(), errorListener);
@@ -63,10 +67,34 @@ public class TestPowerScript01 {
     }
     
     @Test
-    public void testPowerscript03() throws IOException {
+    public void testPowerscript_forward_03() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
         powerscript_01Parser.CompilationUnitContext context03 = parsePowerscript_01(test_forward_03.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+     @Test
+    public void testPowerscript_globaltype_01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context01 = parsePowerscript_01(test_globaltype_01.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPowerscript_globaltype_02() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context02 = parsePowerscript_01(test_globaltype_02.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPowerscript_globaltype_03() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context03 = parsePowerscript_01(test_globaltype_03.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
