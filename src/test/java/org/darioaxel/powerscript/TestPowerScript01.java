@@ -51,6 +51,7 @@ public class TestPowerScript01 {
     private static final Path test_globaltype_03 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/globalType/globaltype_03.sru");
     
     private static final Path test_string_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/string/string_01.sru");
+    private static final Path test_integer_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/integer/integer_01.sru");
    
     private static final Path test_literals_arrays_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/arrays/literalsArrays_01.sru");
    
@@ -102,11 +103,19 @@ public class TestPowerScript01 {
         assertFalse(errorListener.isFail());    
     }
     
-     @Test
+    @Test
     public void testPowerscript_string_01() throws IOException {
 
         TestErrorListener errorListener = new TestErrorListener();
         powerscript_01Parser.CompilationUnitContext context03 = parsePowerscript_01(test_string_01.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPowerscript_integer_01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_01Parser.CompilationUnitContext context03 = parsePowerscript_01(test_integer_01.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
