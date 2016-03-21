@@ -1,1 +1,1 @@
-Constant String is_mod_S = "5.09.1"
+constant String is_mod_S = "5.09.1"
