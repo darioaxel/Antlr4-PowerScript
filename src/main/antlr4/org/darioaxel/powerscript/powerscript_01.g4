@@ -73,7 +73,7 @@ quotedIdentifier
 	;
 
 typeDeclarationEnd
-	: 'end' 'type' delimiter?
+	: 'end' 'type' delimiter
 	;
 
 // 5. Variable Declaration
@@ -430,7 +430,7 @@ ZeroToOne
 	;
 
 delimiter
-    :   '\n'
+    :   '\n'+?
     ;
 
 // SEPARATORS
