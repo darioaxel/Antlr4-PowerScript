@@ -3,7 +3,7 @@
 *	E-Mail: darioaxel@gmail.com
 */
 
-grammar powerscript;
+grammar powerscript_03;
 
 compilationUnit
     :  memberDeclaration* EOF
@@ -42,9 +42,9 @@ forwardDeclarationBody
 	| typeDeclaration
 	;
 
-// 2. Type Declaration	ejemplo: /Ginpix7/Lib/g7xCS_01/n_cst_gestoravisos.sru
+// 2. Type Declaration
 typeDeclaration
-	: typeDeclarationBegin typeDeclarationBody? typeDeclarationEnd
+	: typeDeclarationBegin typeDeclarationBody*? typeDeclarationEnd
 	;
 
 typeDeclarationBegin
@@ -83,12 +83,12 @@ quotedIdentifier
 	;
 
 typeDeclarationEnd
-	: 'end' 'type' delimiter?
+	: 'end' 'type' delimiter
 	;
 
 // 3. Local Variable Declaration Block
 localVariableDeclarationBlock
-	: localVariableDeclarationBegin  localVariableDeclarationBody localVariableDeclarationEnd
+	: localVariableDeclarationBegin  localVariableDeclarationBody* localVariableDeclarationEnd
 	;
 
 localVariableDeclarationBody
@@ -106,11 +106,11 @@ localVariableDeclarationEnd
 
 // 4. Global Variable Declaration Block
 globalVariableDeclarationBlock
-    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody globalVariableDeclarationBlockEnd
+    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody* globalVariableDeclarationBlockEnd
     ;
 
 globalVariableDeclarationBlockBegin
-    : globalScopeModificator 'variables' delimiter
+    : scopeModificator 'variables' delimiter
     ;
 
 globalVariableDeclarationBlockBody
@@ -124,7 +124,7 @@ globalVariableDeclarationBlockEnd
 
 // 5. Variable Declaration
 variableDeclaration
-    :   extendedAccessType? type variableDeclarators delimiter
+    :  scopeModificator? extendedAccessType? type variableDeclarators delimiter
     ;
 
 variableDeclarators
@@ -132,16 +132,12 @@ variableDeclarators
     ;
 
 variableDeclarator
-    :   variableDeclaratorId ('=' variableInitializer)? 
+    :   Identifier arrayLengthDeclarator? ('=' variableInitializer)? 
     ;
 
 variableInitializer 
     : expression
     ;
-
-variableDeclaratorId
-    :   Identifier ('[' ']')*
-    ;	
 
 // 6. Constants Declaration
 constantDeclaration
@@ -314,10 +310,6 @@ arrayType
 scopeModificator
     : 'global'
     | 'local'
-    ;
-
-globalScopeModificator
-    : 'global'
     | 'shared'
     ;
 	
@@ -328,126 +320,7 @@ statementBlock
 
 statement
     : expression
-/*	| ifStatement
-	| callStatement
-	| tryCatchStatement
-	| doLoopWhileStatement
-	| forStatement
-	| returnStatement
-	| destroyStatement
-	| throwStatement
-	| goToStatement
-	| basicStatement */
     ;
-
-doLoopWhileStatement
-    :   doWhileUntilLoop
-    |   doLoopWhileUntil
-    ;
-
-doWhileUntilLoop
-    :   'DO' ('UNTIL' | 'WHILE') expression delimiter statement* delimiter 'LOOP' delimiter
-    ;
-
-doLoopWhileUntil
-    :   'DO' delimiter statement* delimiter 'LOOP' ('WHILE' | 'UNTIL') expression delimiter
-    ;
-
-tryCatchStatement
-    : tryStatement catchStatement*? finallyStatement? endTryStatement
-    ;
-
-tryStatement 
-    : 'TRY' delimiter statement* delimiter
-    ;
-
-catchStatement
-    : 'CATCH' '(' variableDeclaration ')' delimiter statement* delimiter
-    ;
-
-finallyStatement
-    : 'FINALLY' delimiter statement* delimiter
-    ;
-
-endTryStatement
-    : 'END' 'TRY' delimiter
-    ;
-
-forStatement
-	: forStatementBegin forStatementBody forStatementEnd
-	;
-
-forStatementBody
-	: statement* delimiter
-	;
-
-forStatementEnd
-	: 'NEXT' delimiter
-	;
-
-forStatementBegin
-	: 'FOR' expression delimiter forStatementBeginTo?
-	;
-
-forStatementBeginTo
-	: 'TO' expression forStatementBeginToStep delimiter
-	;
-
-forStatementBeginToStep
-	: 'STEP' IntegerLiteral
-	;
-
-ifStatement
-	: 'IF' expression ifStatementThen ifStatementBody+? ifStatementEnd 
-	;
-
-ifStatementBody
-	: statement
-	| ifStatementElseIf
-	;
-
-ifStatementElseIf
-	: 'ELSEIF' expression ifStatementThen 
-	| 'ELSE' statement+?
-	;
-
-ifStatementEnd
-	: 'END' 'IF' delimiter
-	;
-	
-ifStatementThen
-	: 'THEN' delimiter
-	;
-
-goToStatement
-	: 'GOTO' Identifier
-	;
-
-destroyStatement
-	: 'DESTROY' Identifier
-	;
-	
-returnStatement
-	: 'RETURN' expression
-	;
-
-throwStatement
-	: 'THROW' expression
-	;
-
-callStatement
-	: 'CALL' Identifier callStatementSubControl? '::' Identifier 
-	;
-
-callStatementSubControl
-	: '`' Identifier
-	;	
-
-basicStatement
-	: 'EXIT'
-	| 'HALT'
-	| 'CONTINUE'
-	;
 
 qualifiedName
     :   Identifier ('.' Identifier)*
@@ -505,7 +378,6 @@ literal
     |   BooleanLiteral
     |	StringLiteral
     |   CharacterLiteral
-	// | 	DecimalLiteral
     | 	DateTimeLiteral
     |   'null'
     ;
@@ -569,12 +441,12 @@ dataTypeName
 
 type
     :   primitiveType 
-	|   objectType
+    |   objectType
     ;
 
 objectType
-	:	Identifier ( '.' Identifier )*
-	;
+    :	Identifier ( '.' Identifier )*
+    ;
 
 arrayLengthDeclarator
     : '[' arrayLengthValue* ']'
@@ -588,10 +460,6 @@ arrayLengthRange
     :  IntegerLiteral ('TO' IntegerLiteral)*
     ;
 
-delimiter
-    :   '\n'+
-    ;
-
 primitiveType
     :   'boolean'
     |   'char'
@@ -602,8 +470,8 @@ primitiveType
     |   'float'
     |   'double'
     |   'real'
-	|	'string'
-	| 	'date'
+    |	'string'
+    | 	'date'
     ;
 
 // Integer Literals
@@ -775,6 +643,9 @@ ZeroToOne
 	: [0-1]
 	;
 
+delimiter
+    :   '\n'+?
+    ;
 
 // SEPARATORS
 
@@ -852,4 +723,4 @@ LINE_COMMENT
     :   '//' ~[\r\n]* -> skip
     ;
 	
-WS: [ \n\t\r]+ -> skip;
+WS: [ \t\r]+ -> skip;
