@@ -52,6 +52,7 @@ public class TestPowerScript03 {
     
     private static final Path test_string_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/string/string_01.sru");
     private static final Path test_integer_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/integer/integer_01.sru");
+    private static final Path test_date_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/date/date_01.sru");
     private static final Path test_constants_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/constants/constants_01.sru");
    
     private static final Path test_literals_arrays_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/literals/arrays/literalsArrays_01.sru");
@@ -125,6 +126,14 @@ public class TestPowerScript03 {
 
         TestErrorListener errorListener = new TestErrorListener();
         powerscript_03Parser.CompilationUnitContext context03 = parsePowerscript_03(test_integer_01.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+     @Test
+    public void testPowerscript_date_01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_03Parser.CompilationUnitContext context03 = parsePowerscript_03(test_date_01.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }
     
