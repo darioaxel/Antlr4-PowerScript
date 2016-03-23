@@ -7,7 +7,7 @@ string is_fecversion = "2013/06/17"
 // Toque M.U.S. (Firma la existencia del Marco Unico de Savia en c$$HEX1$$f300$$ENDHEX$$digo al compilar)
 boolean ib_mus = TRUE
 
-PRIVATE:
+// PRIVATE:
 s_versapli ist_versapli[]
 
 constant string is_mod_N = "8.27.3"
@@ -33,6 +33,6 @@ constant string is_mod_Q = "4.02.1"
 // Ayuda Social (SCS)
 constant string is_mod_S = "5.09.1"
 
-string	is_textversion, is_textfecversion
+string	is_textversion , is_textfecversion
 
 end variables

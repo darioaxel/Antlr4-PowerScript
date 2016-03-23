@@ -81,11 +81,12 @@ typeDeclarationEnd
 
 // 3. Local Variable Declaration Block
 localVariableDeclarationBlock
-	: localVariableDeclarationBegin  localVariableDeclarationBody localVariableDeclarationEnd
+	: localVariableDeclarationBegin  localVariableDeclarationBody* localVariableDeclarationEnd
 	;
 
 localVariableDeclarationBody
 	: variableDeclaration
+        | constantDeclaration
 	;
 	
 localVariableDeclarationBegin
@@ -98,7 +99,7 @@ localVariableDeclarationEnd
 
 // 4. Global Variable Declaration Block
 globalVariableDeclarationBlock
-    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody globalVariableDeclarationBlockEnd
+    : globalVariableDeclarationBlockBegin globalVariableDeclarationBlockBody* globalVariableDeclarationBlockEnd
     ;
 
 globalVariableDeclarationBlockBegin
