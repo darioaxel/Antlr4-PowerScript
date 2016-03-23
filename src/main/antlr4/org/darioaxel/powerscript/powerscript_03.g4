@@ -192,7 +192,7 @@ functionImplementation
     ;
 	
 functionImplementationHeader
-    : primaryAccessType scopeModificator? functionHeaderIdentification parametersList functionDeclarationEndThrows? ';'
+    : primaryAccessType scopeModificator? functionHeaderIdentification parametersList functionDeclarationEndThrows? ';' delimiter
     ;
 
 functionHeaderIdentification
@@ -319,7 +319,7 @@ statementBlock
     ;
 
 statement
-    : expression
+    : expression delimiter
     ;
 
 qualifiedName
@@ -643,10 +643,6 @@ ZeroToOne
 	: [0-1]
 	;
 
-delimiter
-    :   '\n'+?
-    ;
-
 // SEPARATORS
 
 LPAREN          : '(';
@@ -712,6 +708,10 @@ PBLetter
 fragment
 PBLetterOrDigit
     :   [a-zA-Z0-9$-_%] 
+    ;
+
+delimiter
+    :   '\n'+?
     ;
 
 // § COMMENTS & WHITESPACES

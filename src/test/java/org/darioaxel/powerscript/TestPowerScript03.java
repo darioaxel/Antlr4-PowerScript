@@ -59,7 +59,11 @@ public class TestPowerScript03 {
     private static final Path test_variablesDeclaration_02 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/variablesDeclaration/variablesDeclaration_02.sru");
     
     private static final Path test_typeDeclaration_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/typeDeclaration/typeDeclaration_01.sru");
-     
+    
+    private static final Path test_functionDeclaration_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/functionDeclaration/functionDeclaration_01.sru");
+    private static final Path test_functionBody_01 = FileSystems.getDefault().getPath("../ANTLRPowerScript/src/test/resources/members/functionBody/functionBody_01.sru");
+  
+
     @Test
     public void testPowerscript_forward_01() throws IOException {
 
@@ -163,6 +167,22 @@ public class TestPowerScript03 {
         powerscript_03Parser.CompilationUnitContext context03 = parsePowerscript_03(test_typeDeclaration_01.toFile(), errorListener);
         assertFalse(errorListener.isFail());    
     }    
+    
+    @Test
+    public void testPowerscript_functionDeclaration_01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_03Parser.CompilationUnitContext context03 = parsePowerscript_03(test_functionDeclaration_01.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
+    
+    @Test
+    public void testPowerscript_functionBody_01() throws IOException {
+
+        TestErrorListener errorListener = new TestErrorListener();
+        powerscript_03Parser.CompilationUnitContext context03 = parsePowerscript_03(test_functionBody_01.toFile(), errorListener);
+        assertFalse(errorListener.isFail());    
+    }
         
     private powerscript_03Parser.CompilationUnitContext parsePowerscript_03(File program, 
             TestErrorListener errorListener) throws IOException {
