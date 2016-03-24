@@ -329,7 +329,8 @@ qualifiedName
 expression
     :   primary
     |   expression '.' Identifier
-	|   expression '=' 'CREATE' 'USING'? Identifier	
+    |   expression '=' 'CREATE' 'USING'? Identifier
+    |   expression '[' expression ']'
     |   expression '(' expressionList? ')'
     |   '(' type ')' expression
     |   expression ('+=' | '-=')

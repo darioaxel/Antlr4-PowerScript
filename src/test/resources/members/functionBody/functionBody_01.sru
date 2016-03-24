@@ -6,6 +6,8 @@ end subroutine
 public function boolean of_licencia_correcta ( string as_modulo ) ;
 long i 
 
+istr_xlicmodu [ i ] . s_codimodu = as_modulo
+
 /*
 FOR i = 1 TO UpperBound(istr_xlicmodu)
 	IF istr_xlicmodu[i].s_codimodu = as_modulo THEN
